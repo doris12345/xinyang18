@@ -1,0 +1,156 @@
+<form id="form_business" name="from_case" method="post" action="/add_business/">
+    <div class="rightbar">
+        <div>
+            <div class="top">
+                管理平台 &gt;
+                <span id="current_pro_name">{{ current_pro_name }}</span>
+                <span>&gt;新建业务流</span>
+            </div>
+
+            <div class="search">
+                <span>业务流名称：</span><input style="width: 400px;" type="text" name="ywlname"
+                                          value="{{ bus_obj.name }}" placeholder="请输入业务流用例名称"
+                                          required autofocus>
+                <input type="hidden" name="current_pro_name" value={{ current_pro_name }}>
+                <span>例：前台注册-登录-资质认证申请-后台审核成功-发布资产-后台资产审核-前台首页资产展示</span>
+            </div>
+
+            <div class="btnlist re_position">
+                <a class="a_btn" id="bus_add_case">添加用例</a>
+                <a class="a_btn" id="bus_save_case">保存</a>
+                <input type="hidden" name="action" value="保存业务流">
+            </div>
+        </div>
+
+        <div id="bus_addcase">
+            <div id="show_case">
+                <span>用例列表：</span>
+                <table id="example">
+                    <thead>
+                    <tr>
+                        <th width="30px"></th>
+                        <th width="45px">ID</th>
+                        <th width="300px">名称</th>
+                        <th>性质</th>
+                        <th>独立性</th>
+                        <th>类型</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for i in case_list %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="checkbox_choose_case" name="{{ i.id }}">
+                            </td>
+
+                            <td>
+                                <a>{{ i.id }}</a>
+                            </td>
+
+                            <td align="center">
+                                <a>{{ i.name }}</a>
+                            </td>
+
+                            <td align="center">
+                                <a>{{ i.case_nature }}</a>
+                            </td>
+
+                            <td align="center">
+                                <a>{{ i.features }}</a>
+                            </td>
+
+                            <td align="center">Web用例</td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for i in incase_list %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="checkbox_case" name="{{ i.id }}">
+                        </td>
+
+                        <td>
+                            <a>{{ i.id }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>{{ i.caseName }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>{{ i.nature }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>独立用例</a>
+                        </td>
+
+                        <td align="center">接口用例</td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="chosen_case">
+                <span>已选择用例：</span>
+            </div>
+
+            <div><input type="button"  id="cancel_addcase_div" class="a_btn" align="center" value="取消"></div>
+        </div>
+    </div>
+</form>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+<script>
+     $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+    // DataTable
+    var table = $('#example').DataTable();
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+    });
+
+
+{#    $(function () {#}
+{#        $("#sortable").sortable();#}
+{#        $("#sortable").disableSelection();#}
+{#    });#}
+</script>

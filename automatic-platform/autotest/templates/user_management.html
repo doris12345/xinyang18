@@ -1,0 +1,202 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span>用户管理</span></div>
+
+    <div class="btnlist re_position">
+        <a id="btn_add_user" class="a_btn adduser_btn">新增</a>
+    </div>
+
+    <div class="tablelist">
+        <table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+            <thead>
+            <tr class="thead">
+                <th width="30">ID</th>
+                <th>用户名</th>
+                <th>真实姓名</th>
+                <th>加入时间</th>
+                <th>最后登录时间</th>
+                <th>超级用户</th>
+                <th>登录权限</th>
+                <th>是否有效</th>
+                <th width="80">操作</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr class="thead">
+                <th width="30">ID</th>
+                <th>用户名</th>
+                <th>真实姓名</th>
+                <th>加入时间</th>
+                <th>最后登录时间</th>
+                <th>超级用户</th>
+                <th>登录权限</th>
+                <th>是否有效</th>
+                <th width="80">操作</th>
+            </tr>
+            </tfoot>
+            <tbody id="sortable">
+            {% for user in user %}
+                <tr>
+                    <td class="userid">{{ user.id }}</td>
+                    <td class="username">{{ user.username }}</td>
+                    <td class="name">{{ user.first_name }}</td>
+                    <td>{{ user.last_login }}</td>
+                    <td>{{ user.date_joined }}</td>
+                    <td align="center">{{ user.is_superuser }}</td>
+                    <td align="center">{{ user.is_staff }}</td>
+                    <td align="center" class="isactive">{{ user.is_active }}</td>
+                    <td align="center" id="operation4">
+                        <input class="wh_user" type="button" name="{{ user.id }}"  title="编辑">
+                        <input class="sc_user" type="button" name="{{ user.id }}" title="删除">
+                        <input class="cz_user" type="button" name="{{ user.username }}" title="重置密码">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="mask"></div>
+{# 新增用户 #}
+<div class="dialog user_dialog">
+    <table class="list01 list02 list04">
+        <tr>
+            <td>用户名</td>
+            <td><input id="add_user" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td>真实姓名</td>
+            <td><input id="first_name" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input id="password" type="password" value=""></td>
+        </tr>
+        <tr>
+            <td>用户状态</td>
+            <td>
+                <span><input type="radio" name="radiobutton" value="1" checked>启用</span>
+                <span><input type="radio" name="radiobutton" value="0">禁用</span>
+            </td>
+        </tr>
+    </table>
+    <div class="textcenter">
+        <input id="save" type="submit" class="a_btn addcase_save alertinfo" value="保存"/>
+        &nbsp;&nbsp;
+        <a class="a_btn" id="cencel_adduser" href="#">取消</a>
+    </div>
+</div>
+
+{# 维护用户信息 #}
+    <div class="dialog changeuser_dialog">
+        <table class="list01 list02 list04">
+            <tr>
+                <td>用户ID</td>
+                <td><input id="user_id" type="text" readonly="readonly" value=""></td>
+            </tr>
+            <tr>
+                <td>用户名</td>
+                <td><input id="user_name" type="text" value=""></td>
+            </tr>
+            <tr>
+                <td>真实姓名</td>
+                <td><input id="user_first_name" type="text" value=""></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input id="user_password" type="password" value=""></td>
+            </tr>
+            <tr>
+                <td>用户状态</td>
+                <td>
+                    <span><input type="radio" name="radiobutton2" value="1">启用</span>
+                    <span><input type="radio" name="radiobutton2" value="0">禁用</span>
+                </td>
+            </tr>
+        </table>
+       <div class="textcenter">
+           <input id="save_xg" type="submit" class="a_btn addcase_save alertinfo" value="保存"/>
+           &nbsp;&nbsp;
+           <a class="a_btn" id="cencel_changeuser" href="#">取消</a>
+       </div>
+    </div>
+
+<div class="dialog changepwd_dialog">
+    <form id="myd_pass" method="post" action="/user_management/">
+        <span>用户名:</span><input id="modify_user" type="text" readonly="readonly" name="user_name"/>
+        <div style="margin-top: 20px">
+        <span>新密码:</span><input id="new_passwd" type="password" name="passwd">
+
+        <input type="hidden" name="action" value="重置密码">
+        </div>
+    </form>
+
+    <div align="center">
+        <a id="modify_password" class="a_btn">确定</a>
+        <a id="gb_mdypass" class="a_btn">取消</a>
+    </div>
+</div>
+
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    {#   定义被选中的单元格的背景色  #}
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+
+<script>
+    $(document).ready(function () {
+
+    // DataTable
+    var table = $('#example').DataTable();
+
+    // 在table最下面增加搜索框
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        });
+    } );
+
+    //当鼠标移至表格单元时，该单元格所在的列的背景色为选中；移开则消失
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+
+});
+
+</script>
+
+
+
+
+
+
+

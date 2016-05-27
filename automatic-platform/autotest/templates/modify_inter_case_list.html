@@ -1,0 +1,120 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span id="current_proname">{{ current_project }}</span><span>&gt;维护接口测试用例</span></div>
+    <div class="btnlist re_position">
+        <a href="#" class="a_btn" id="add_interface">新增</a>
+    </div>
+    <div class="tablelist" style="max-height: 830px;overflow-y: scroll;">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th width="30">ID</th>
+                <th width="50">模板ID</th>
+                <th width="400">用例标题</th>
+                <th width="50">性质</th>
+                <th width="50">状态</th>
+                <th width="70">创建人</th>
+                <th width="150">调试时间</th>
+                <th width="70">调试人</th>
+                <th width="50">结果</th>
+                <th width="180">操作</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th width="30">ID</th>
+                <th width="50">模板ID</th>
+                <th width="400">用例标题</th>
+                <th width="50">性质</th>
+                <th width="50">状态</th>
+                <th width="70">创建人</th>
+                <th width="150">调试时间</th>
+                <th width="70">调试人</th>
+                <th width="50">结果</th>
+                <th width="180">操作</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for i in case_list %}
+                <tr>
+                    <td align="center">{{ i.id }}</td>
+                    <td align="center">{{ i.tempId }}</td>
+                    <td align="left" class="incase_detail" name="{{ i.id }}" pro_name= "{{current_project}}" title="{{ i.caseName }}"> {{ i.caseName }} </td>
+                    <td align="center">{{ i.nature }}</td>
+                    <td align="center">{{ i.status }}</td>
+                    <td align="center">{{ i.creator }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td align="center">
+                        <input class="debug" type="button" name="{{ i.id }}" title="调试">
+                        <input class="mdy_interface" type="button" name="{{ i.id }}" title="编辑">
+                        <input class="in_copy" type="button" name="{{ i.id }}" title="复制" pro_name= "{{current_project}}">
+                        <input class="delete_caseA" type="button" name="{{ i.id }}" title="删除">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    {#   定义被选中的单元格的背景色  #}
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+
+<script>
+    $(document).ready(function () {
+
+    // DataTable
+    var table = $('#example').DataTable();
+
+    // 在table最下面增加搜索框
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        });
+    } );
+
+    //当鼠标移至表格单元时，该单元格所在的列的背景色为选中；移开则消失
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+
+});
+
+</script>
+
+
+
+
+

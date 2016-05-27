@@ -1,0 +1,27 @@
+{% for i in mo %}
+    <tr class="mdyTempTable">
+        <td>
+            <input type="checkbox" name="mdyTempId" value="{{ i.id }}" class="checkbox">
+        </td>
+        <td>
+            <input type="hidden" name="mdyObjName" value="{{ i.objName }}" readonly="readonly">{{ i.objName }}
+        </td>
+        <td>
+            <input type="hidden" id="key1" name="mdyKey1" value="{{ i.part }}" readonly="readonly">
+            {{ i.part }}
+        </td>
+
+        <td>
+            <input type="hidden" name="mdyKey2" value="{{ i.list }}" readonly="readonly">{{ i.list }}
+        </td>
+
+        <td>
+            <input type="hidden" name="mdyKey3" value="{{ i.key }}" readonly="readonly">{{ i.key }}
+        </td>
+
+        <td>
+            <input type="hidden" id='type' name='mdyType' value="{{ i.type }}" readonly="readonly">
+            {{ i.type }}
+        </td>
+    </tr>
+{% endfor %}

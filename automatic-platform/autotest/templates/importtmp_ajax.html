@@ -1,0 +1,43 @@
+{% for i in tr_list %}
+<tr>
+    <td>
+        <input type="checkbox" class="checkbox">
+    </td>
+    <td>
+        <a>{{ forloop.counter }}</a>
+    </td>
+    <td>
+        <input type="text" name="objname" value="{{ i.objName }}">
+    </td>
+{#不是JSON模板显示组件名称,是JSON模板显示隐藏元素#}
+    {% if tempplate_type != "JSON" %}
+    <td>
+        <select name="part" required>
+            <option value="{{ i.part }}">{{ i.part }}</option>
+            <option></option>
+            <option value="报文头">报文头</option>
+            <option value="报文体">报文体</option>
+        </select>
+    </td>
+        {% else %}
+        <input type="hidden" name="part">
+    {% endif %}
+
+    <td>
+        <input type="text" name="list" value="{{ i.list }}">
+    </td>
+
+    <td>
+        <input type="text"  name="key" value="{{ i.key }}">
+    </td>
+    <td>
+        <select name="type">
+            <option value="{{ i.type }}">{{ i.type }}</option>
+            <option></option>
+            <option value="发送报文">发送报文</option>
+            <option value="响应报文">响应报文</option>
+        </select>
+    </td>
+</tr>
+{% endfor %}
+

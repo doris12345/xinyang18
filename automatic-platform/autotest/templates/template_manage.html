@@ -1,0 +1,253 @@
+<div class="rightbar">
+    <form id="save_temp" method="post" action="/add_template/">
+        <div class="top">
+            <span>管理平台&gt</span>
+            {% if temp_type == "JSON" or copy_type == "复制JSON" %}
+                <span id="page_laber">新增JSON模板</span>
+            {% elif temp_type == "JMS" or copy_type == "复制JMS" %}
+                <span id="page_laber">新增JMS模板</span>
+            {% elif temp_type == "编辑JSON" %}
+                <span id="page_laber">编辑JSON模板</span>
+            {% elif temp_type == "编辑JMS" %}
+                <span id="page_laber">编辑JMS模板</span>
+            {% endif %}
+        </div>
+
+        <span>项目名称:{{ pro_name }}</span>
+        <input type="hidden" name="project_name" id="project_name" value="{{ pro_name }}">
+
+        {# 编辑模板时需要显示模板ID #}
+        <div>
+        {% if ac == "修改模板" %}
+        <span>模板ID：</span>
+        <a>{{ temp_id }}</a>
+            <input type="hidden" name="temp_id" value="{{ temp_id }}">
+        <br>
+        {% endif %}
+
+        <span>模板名称：</span>
+        <input style="width: 400px;margin-top: 10px" value="{{ temp_obj.tempName }}"  id="template_name" type="text" name="template_name"/>
+        </div>
+
+        <div class="btnlist re_position">
+            <input type="hidden" name="action" value="{{ ac }}">
+            <input type="hidden" name="template_type" id="template_type" value="{{ temp_type }}">
+            <a class="a_btn" id="save_template">保存模板</a>
+        </div>
+
+
+        <div class="tablelist">
+          <table class="list01 list02" id="tb">
+                <tr class="thead">
+                    {% if temp_type == "JSON" or temp_type == "编辑JSON" or copy_type == "复制JSON"%}
+                    <th width="45">计数</th>
+                    <th>参数名称</th>
+                    <th>字段名称</th>
+                    <th>子字段名称</th>
+                    <th>字段类型</th>
+                    <th>操作</th>
+                    {% elif temp_type == "JMS" or temp_type == "编辑JMS" or copy_type == "复制JMS"%}
+                    <th width="45">计数</th>
+                    <th>参数名称</th>
+                    <th>组件名称</th>
+                    <th>字段名称</th>
+                    <th>子字段名称</th>
+                    <th>字段类型</th>
+                    <th>操作</th>
+                    {% endif %}
+                </tr>
+                <tbody id="content_tr">
+                {% if temp_type == "编辑JSON" or copy_type == "复制JSON" %}
+                    {% for i in temp_detail %}
+                    <tr>
+                        <td style='display:none'>
+                            <input type="checkbox" class="checkbox">
+                        </td>
+                        <td>
+                            <a>{{ forloop.counter }}</a>
+                        </td>
+                        <td>
+                            <input type="text" name="objname" value="{{ i.objName }}">
+                        </td>
+                            <input type="hidden" name="part" value="{{ i.part }}">
+
+                        <td>
+                            <input type="text" name="list" value="{{ i.list }}">
+                        </td>
+
+                        <td>
+                            <input type="text" name="key" value="{{ i.key }}">
+                        </td>
+                        <td>
+                            <select name="type">
+                                <option value="{{ i.type }}">{{ i.type }}</option>
+                                <option></option>
+                                <option value="发送报文">发送报文</option>
+                                <option value="响应报文">响应报文</option>
+                            </select>
+                        </td>
+                       <td id="operation">
+                            <input type="button" class="add_content" name="{{ i.id }}" title="新增字段">
+                            <input type="button" class="del_content" name="{{ i.id }}" title="删除字段">
+                       </td>
+                    </tr>
+                    {% endfor %}
+                {% elif temp_type == "编辑JMS" or copy_type == "复制JMS"%}
+                    {% for i in temp_detail %}
+                    <tr>
+                        <td style='display:none'>
+                            <input type="checkbox" class="checkbox">
+                        </td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <input type="text" name="objname" value="{{ i.objName }}" >
+                        </td>
+
+                        <td>
+                            <select name="part" required="">
+                                <option value="{{ i.part }}">{{ i.part }}</option>
+                                <option></option>
+                                <option value="报文头">报文头</option>
+                                <option value="报文头">报文体</option>
+                            </select>
+                        </td>
+
+
+                        <td>
+                            <input type="text" name="list" value="{{ i.list }}">
+                        </td>
+
+                        <td>
+                            <input type="text" name="key" value="{{ i.key }}">
+                        </td>
+                        <td>
+                            <select name="type">
+                                <option value="{{ i.type }}">{{ i.type }}</option>
+                                <option></option>
+                                <option value="发送报文">发送报文</option>
+                                <option value="响应报文">响应报文</option>
+                            </select>
+                        </td>
+                        <td id="operation">
+                            <input type="button" class="add_content" name="{{ i.id }}" title="新增字段">
+                            <input type="button" class="del_content" name="{{ i.id }}" title="删除字段">
+                       </td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+
+{#<div id="mask" class="mask"></div>#}
+{#<div class="dialog test_cases" id="import_json" >#}
+{#    <div class="test_list mb_20">#}
+{#        <div>#}
+{#        <h3 style="margin-left: 300px">导入JSON模板#}
+{#        </h3>#}
+{#        <a class="a_btn" id="gb_json" href="#" >取消</a>#}
+{#        </div>#}
+{#        <div style="max-height: 600px;overflow-y: scroll">#}
+{#            <table id="example_json" class="disabled" cellspacing="0" width="100%">#}
+{#                <thead>#}
+{#                   <tr class="thead">#}
+{#                        <th>模板ID</th>#}
+{#                        <th width="200">模板名称</th>#}
+{#                        <th>模板类型</th>#}
+{#                        <th>操作</th>#}
+{#                    </tr>#}
+{#                </thead>#}
+{##}
+{#                <tfoot>#}
+{#                  <tr class="thead">#}
+{#                        <th>模板ID</th>#}
+{#                        <th width="200">模板名称</th>#}
+{#                        <th>模板类型</th>#}
+{#                        <th>操作</th>#}
+{#                    </tr>#}
+{#                </tfoot>#}
+{#                <tbody>#}
+{#                  {% for i in json_list %}#}
+{#                <tr>#}
+{#                    <td>#}
+{#                        <a>{{ i.id }}</a>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <a>{{ i.tempName }}</a>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <a>{{ i.template_type }}</a>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <input id="yy_json" type="button" name="{{ i.id }}" title="应用模板">#}
+{#                    </td>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+{#                </tbody>#}
+{#            </table>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<div class="dialog test_cases" id="import_jms" >#}
+{#    <div class="test_list mb_20">#}
+{#        <div>#}
+{#        <h3 style="margin-left: 300px">导入JMS模板#}
+{#        </h3>#}
+{#        <a class="a_btn" id="yy_jms" style="margin-left: 440px">应用</a>#}
+{#        <a class="a_btn" id="gb_jms" href="#" >取消</a>#}
+{#        </div>#}
+{#        <div style="max-height: 600px;overflow-y: scroll">#}
+{#          <table id="example_jms" class="row-border hover order-column" cellspacing="0" width="100%">#}
+{#            <thead>#}
+{#             <tr class="thead">#}
+{#                    <th width="45"></th>#}
+{#                    <th  width="45">模板ID</th>#}
+{#                    <th>模板名称</th>#}
+{#                    <th>模板类型</th>#}
+{#                </tr>#}
+{#            </thead>#}
+{#            <tfoot>#}
+{#           <tr class="thead">#}
+{#                    <th width="45"></th>#}
+{#                    <th  width="45">模板ID</th>#}
+{#                    <th>模板名称</th>#}
+{#                    <th>模板类型</th>#}
+{#                </tr>#}
+{#            </tfoot>#}
+{#            <tbody>#}
+{#              {% for i in jms_list %}#}
+{#                <tr>#}
+{#                    <td>#}
+{#                        <input type="checkbox" class="checkbox-jms" name="{{ i.id }}">#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <a>{{ i.id }}</a>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <a>{{ i.tempName }}</a>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <a>{{ i.template_type }}</a>#}
+{#                    </td>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+{#            </tbody>#}
+{#            </table>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#example_json').dataTable();
+        $("#example_jms").dataTable();
+    });
+
+</script>

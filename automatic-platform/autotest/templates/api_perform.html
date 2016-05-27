@@ -1,0 +1,68 @@
+<div class="rightbar" style="width: 100%">
+    <div class="top"> 管理平台 &gt; <span>测试执行列表</span></div>
+    <div class="btnlist re_position">
+        <a class="a_btn" href="#" id="add_api_perform">新增执行</a>
+        <a class="a_btn" href="#" id="del_api_perform">删除执行</a>
+    </div>
+    <div class="tablelist">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th width="50px"></th>
+                    <th>执行名称</th>
+                    <th width="150px">创建时间</th>
+                    <th width="150px">修改时间</th>
+                    <th width="100px">维护执行</th>
+                    <th width="100px">运行执行</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th width="50px"></th>
+                    <th>执行名称</th>
+                    <th width="150px">创建时间</th>
+                    <th width="150px">修改时间</th>
+                    <th width="100px">维护执行</th>
+                    <th width="100px">运行执行</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for i in per_list %}
+                <tr>
+                    <td>
+                        <input type="checkbox" class="checkbox" name="{{ i.id }}">
+                    </td>
+                    <td>
+                        <a>{{ i.name }}</a>
+                    </td>
+                    <td>
+                        <a>{{ i.create_date }}</a>
+                    </td>
+                    <td>
+                        <a>{{ i.edit_date }}</a>
+                    </td>
+                    <td>
+                        <a class="a_btn mdy_perform" name="{{ i.id }}">维护执行</a>
+                    </td>
+                    <td>
+                        <a class="a_btn run_perform" name="{{ i.id }}">运行执行</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#example').dataTable();
+    })
+</script>

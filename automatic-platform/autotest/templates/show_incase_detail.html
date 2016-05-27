@@ -1,0 +1,85 @@
+
+<div class="rightbar">
+    <div class="top">
+        <span>管理平台 &gt;</span>
+        <span>{{ pro_name }}</span>
+        <span>&gt查看用例详细信息</span>
+    </div>
+
+    <div style="margin-top: 10px">
+        <span>用例名称: {{ case_obj.caseName }}<br/></span>
+        <span>用例ID: {{ case_obj.id }}<br/></span>
+        <span>用例状态: {{ case_obj.status }}</span>
+        <span>用例性质: {{ case_obj.nature }}</span>
+    </div>
+
+    <div id="table_div">
+            <div style="margin-top: 10px">
+                <table class="list01 list02 tempTable">
+                    <tr class="thead">
+                        <th>参数名称</th>
+                        <th>组件名称</th>
+                        <th>字段名称</th>
+                        <th>子字段名称</th>
+                        <th>输入值</th>
+                    </tr>
+                    <tbody id="inter_content">
+                    {% for i in conten_dict %}
+                        <tr>
+                            <td>{{ i.objName }}</td>
+                            <td>{{ i.part }}</td>
+                            <td>{{ i.list }}</td>
+                            <td>{{ i.key }}</td>
+                            <td>{{ i.value }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div style="margin-top: 20px">
+                <table class="list01 list02 tempTable" style="margin-top: 10px">
+                    <tr class="thead">
+                        <th width="100">参数名称</th>
+                        <th width="100">字段名称</th>
+                        <th width="100">比对方式</th>
+                        <th width="100">期望值</th>
+                        <th>SQL语句</th>
+                    </tr>
+                    <tbody id="inter_assert">
+                    {% for i in diff_obj %}
+                        <tr>
+                            <td>{{ i.objId }}</td>
+                            <td>{{ i.field_name }}</td>
+                            <td>{{  i.diffType }}</td>
+                            <td>{{ i.value }}</td>
+                            <td>{{ i.ex }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
+    <span id="add_people">历史操作:&nbsp; &nbsp;&nbsp;</span>
+    <div >
+        <span>
+             {% for action in history_list %}
+                 {% if action.action == "create" %}
+                    {{ forloop.counter }}、{{ action.actiondate }},由 <span class="his">{{ action.actor }}</span> 创建。<br/>
+                 {% elif action.action == "adddiff" %}
+                    {{ forloop.counter }}、{{ action.actiondate }}, <span class="his">{{ action.actor }}</span> 增加断言 ：objId="<span class="his">{{ action.add_objId }}</span>",objId="<span class="his">{{ action.add_objId }}</span>",
+                     diffType="<span class="his">{{ action.add_diffType }}</span>",value="<span class="his">{{ action.add_value }}</span>",fieldname="<span class="his">{{ action.add_fieldname }}</span>",ex="<span class="his">{{ action.add_ex }}</span>"  。<br/>
+                 {% elif action.action == "deletediff" %}
+                     {{ forloop.counter }}、{{ action.actiondate }}, <span class="his">{{ action.actor }}</span> 删除断言 ：objId="<span class="his">{{ action.add_objId }}</span>",objId="<span class="his">{{ action.add_objId }}</span>",
+                     diffType="<span class="his">{{ action.add_diffType }}</span>",value="<span class="his">{{ action.add_value }}</span>",fieldname="<span class="his">{{ action.add_fieldname }}</span>",ex="<span class="his">{{ action.add_ex }}</span>"  。<br/>
+                 {% else %}
+                    {{ forloop.counter }}、{{ action.actiondate }}, <span class="his">{{ action.actor }}</span> 将字段 "<span class="his">{{ action.edit_field }}</span>" 的值由 "<span class="his">{{ action.old_field_value }}</span>" 修改为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% endif %}
+             {% endfor %}
+        </span>
+    </div>
+
+</div>
+

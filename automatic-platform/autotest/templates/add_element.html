@@ -1,0 +1,278 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span id="current_pro_name">{{ current_pro_name }}</span>
+        <span>&gt元素列表</span></div>
+
+    <div class="btnlist re_position">
+        <a class="a_btn" id="tj_ele">添加</a>
+    </div>
+
+    <div class="tablelist" style="max-height: 830px;overflow-y: scroll">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                   <th width="20">ID</th>
+                    <th width="200">名称</th>
+                    <th width="100">定位方法</th>
+                    <th width="300">元素值</th>
+                    <th width="70">页面路径</th>
+                    <th width="100">创建人</th>
+                    <th width="180">备注</th>
+                    <th width="100">操作</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th width="20">ID</th>
+                   <th width="200">名称</th>
+                    <th width="100">定位方法</th>
+                    <th width="300">元素值</th>
+                    <th width="70">页面路径</th>
+                    <th width="100">创建人</th>
+                    <th width="180">备注</th>
+                    <th width="100">操作</th>
+                </tr>
+            </tfoot>
+            <tbody>
+             {% for ele in element_list %}
+            <tr>
+                <td class="ele_id">
+                    <a>{{ ele.id }}</a>
+                </td>
+                <td align="left" class="ele_detail ele_name" name="{{ ele.id }}" pro_name= "{{current_pro_name}}" title="{{ ele.name }}">{{ ele.name }}</td>
+
+                <td align="center" class="ele_fun">
+                    <a>{{ ele.fun }}</a>
+                </td>
+                <td align="center" class="ele_value">
+                    <a>{{ ele.values }}</a>
+                </td>
+                <td align="center" class="ele_url">
+                    <a>{{ ele.page_url }}</a>
+                </td>
+                <td align="center">
+                    <a>{{ ele.creator }}</a>
+                </td>
+                <td align="center" class="ele_desc">
+                    <a>{{ ele.desc }}</a>
+                </td>
+                <td width="70">
+                    <input id="xg_ele" type="button" name="{{ ele.id }}" title="编辑">
+                    <input id="sc_ele" type="button" name="{{ ele.id }}" title="删除">
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="mask" class="mask"></div>
+
+{# 添加元素 #}
+<div class="dialog test_cases" id="add_ele_div" style="height: 200px;width: 1200px">
+    <h1 style="font-size: 22px" align="center">添加元素</h1>
+        <div style="margin-top: 20px">
+            <table class="list01 list02" style="margin-top: 10px">
+                <tr class="thead">
+                    <th>名称</th>
+                    <th>定位方法</th>
+                    <th>元素值</th>
+                    <th>页面路径</th>
+                    <th>备注</th>
+                </tr>
+
+                <tr>
+                    <td><input id="el_name" name="name" type="text" autocomplete="off" required autofocus ></td>
+
+                    <td>
+                        <select id="el_fun" name="function" autocomplete="off" required autofocus>
+                            <option></option>
+                            {% for i in fun %}
+                                <option value="{{ i.name }}">{{ i.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td><input id="el_value" name="value" type="text" autocomplete="off" required autofocus ></td>
+
+                    <td><input id="el_url" name="page_url" type="text" autocomplete="off" required autofocus ></td>
+
+                    <td><input id="el_desc" name="desc" type="text" autocomplete="off" required autofocus ></td>
+                </tr>
+            </table>
+        </div>
+        <div align="center" style="margin-top: 20px">
+            <a class="a_btn" id="add_sure" name="{{ current_pro_name }}" >保存</a>
+            <a class="a_btn" id="close_add_elediv">取消</a>
+        </div>
+</div>
+
+<div class="dialog test_cases" id="xg_ele_div" style="height: 200px;width: 1200px">
+    <h1 style="font-size: 22px" align="center">修改元素</h1>
+        <div style="margin-top: 20px">
+            <table class="list01 list02"  style="margin-top: 10px">
+                <tr class="thead">
+                    <th style="width: 50px">元素ID</th>
+                    <th>名称</th>
+                    <th style="width: 120px">定位方法</th>
+                    <th>元素值</th>
+                    <th>页面路径</th>
+                    <th>备注</th>
+                </tr>
+
+                <tr id="mdf_ele">
+                    <td>
+                        <input id="ele_id" type="text" name="ele_id" readonly="readonly">
+                    </td>
+
+                    <td>
+                        <input id="ele_name" name="name" type="text" autocomplete="off" value="" >
+                    </td>
+
+                    <td>
+                        <select id="ele_fun" name="function" autocomplete="off" >
+                            <option></option>
+                            {% for i in fun %}
+                                <option value="{{ i.name }}">{{ i.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td>
+                        <input id="ele_value" name="value" type="text" autocomplete="off">
+                    </td>
+
+                    <td>
+                        <input id="ele_url" name="page_url" type="text" autocomplete="off">
+                    </td>
+
+                    <td>
+                        <input id="ele_desc" name="desc" type="text"  autocomplete="off">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px" align="center">
+            <a class="a_btn" id="xg_ele_sure" name="{{ current_pro_name }}">保存</a>
+            <a class="a_btn" id="gb_xgdiv">取消</a>
+        </div>
+</div>
+
+<div class="dialog view_ele" id="detail_ele_div" >
+    <h1 style="font-size: 22px" align="center">元素详细信息：</h1>
+    <div style="margin-top: 20px">
+        <table class="list01 list02"  style="margin-top: 10px">
+            <tr class="thead">
+                <th style="width: 50px">元素ID</th>
+                <th>名称</th>
+                <th style="width: 120px">定位方法</th>
+                <th>元素值</th>
+                <th>页面路径</th>
+                <th>备注</th>
+            </tr>
+
+            <tr id="detail_ele">
+                <td>
+                    <input id="det_ele_id" type="text" name="ele_id" readonly="readonly">
+                </td>
+
+                <td>
+                    <input id="det_ele_name" name="name" type="text" readonly="readonly">
+                </td>
+
+                <td>
+                    <input id="det_ele_fun" name="value" type="text" readonly="readonly">
+                </td>
+
+                <td>
+                    <input id="det_ele_value" name="value" type="text" readonly="readonly">
+                </td>
+
+                <td>
+                    <input id="det_ele_url" name="page_url" type="text" readonly="readonly">
+                </td>
+
+                <td>
+                    <input id="det_ele_desc" name="desc" type="text"  readonly="readonly">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <span>
+             {% for action in history_list %}
+                 {% if action.action == "create" %}
+                    {{ forloop.counter }}、{{ action.actiondate }},由 <span class="his">{{ action.actor }}</span> 创建。<br/>
+                 {% else %}
+                    {{ forloop.counter }}、{{ action.actiondate }}, <span class="his">{{ action.actor }}</span> 将字段 "<span class="his">{{ action.edit_field }}</span>" 的值由 "<span class="his">{{ action.old_field_value }}</span>" 修改为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% endif %}
+             {% endfor %}
+        </span>
+    </div>
+
+    <div style="margin-top: 20px" align="center">
+            <a class="a_btn" id="gb_viewdiv">关闭</a>
+    </div>
+
+</div>
+
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    {#   定义被选中的单元格的背景色  #}
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+
+<script>
+    $(document).ready(function () {
+
+    // DataTable
+    var table = $('#example').DataTable();
+
+    // 在table最下面增加搜索框
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        });
+    } );
+
+    //当鼠标移至表格单元时，该单元格所在的列的背景色为选中；移开则消失
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+
+});
+
+</script>
+

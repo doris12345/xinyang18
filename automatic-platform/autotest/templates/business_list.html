@@ -1,0 +1,93 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span>{{ current_pro_name }}</span> <span>&gt;维护业务流用例</span></div>
+    <div class="btnlist re_position">
+        <a class="a_btn" id="zj_bus">新增</a>
+    </div>
+
+    <div class="tablelist mt_15" style="max-height: 830px;overflow-y:scroll">
+        <table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th width="20">ID</th>
+                    <th>名称</th>
+                    <th width="100">创建人</th>
+                    <th width="150">创建时间</th>
+                    <th width="105">操作</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th width="20">ID</th>
+                    <th>名称</th>
+                    <th width="100">创建人</th>
+                    <th width="150">创建时间</th>
+                    <th width="105">操作</th>
+                </tr>
+            </tfoot>
+            <tbody>
+            {% for i in business_list %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td class="bus_detail" style="text-align:left;" name="{{ i.id }}" title="{{ i.name }}">{{ i.name }}</td>
+                    <td>{{ i.creator }}</td>
+                    <td>{{ i.date }}</td>
+                    <td align="center" id="operation">
+                        <input class="dbg_bus" type="button" name="{{ i.id }}" title="调试">
+                        <input class="wh_bus" type="button" name="{{ i.id }}" title="编辑">
+                        <input class="bu_copy" type="button" name="{{ i.id }}" title="复制">
+                        <input class="sc_bus" type="button" name="{{ i.id }}" title="删除">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static "js/jquery.dataTables.min.js" %}"></script>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+<script>
+    $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+    // DataTable
+    var table = $('#example').DataTable();
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+    });
+</script
+

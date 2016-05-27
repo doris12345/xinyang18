@@ -1,0 +1,113 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span>测试执行列表</span></div>
+    <div class="btnlist re_position">
+        <a class="a_btn" id="ac_perform">新增</a>
+    </div>
+    <div class="tablelist mt_15">
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th width="45">ID</th>
+                <th>名称</th>
+                <th width="150">创建人</th>
+                <th width="150">创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th width="45">ID</th>
+                <th>名称</th>
+                <th width="150">创建人</th>
+                <th width="150">创建时间</th>
+                <th>操作</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for perform in user_perform %}
+                <tr>
+                    <td align="center">{{ perform.id }}</td>
+                    <td class="perform_detail" name="{{perform.id }}" style="text-align:left;"  title="{{ perform.name }}">{{ perform.name }}
+                    <td>{{ perform.creator }}</td>
+                    <td>{{ perform.date }}</td>
+                    <td align="center" width="150px">
+                        <input type="button" class="per_debug" name="{{ perform.id }}" title="调试">
+                        <input type="button" class="wh_perform" name="{{ perform.id }}" title="编辑">
+                        <input type="button" class="perform_copy"  name="{{ perform.id }}" title="复制">
+                        <input type="button" class="sc_perform"  name="{{ perform.id }}" title="删除">
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    {#   定义被选中的单元格的背景色  #}
+    td.highlight {
+    background-color: whitesmoke !important;
+    }
+
+</style>
+
+<script>
+    $(document).ready(function () {
+
+    // DataTable
+    var table = $('#example').DataTable();
+
+    // 在table最下面增加搜索框
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+        that
+            .search( this.value )
+            .draw();
+        });
+
+    } );
+
+    //当鼠标移至表格单元时，该单元格所在的列的背景色为选中；移开则消失
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+
+});
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#example').dataTable();
+    });
+</script>
+
+
+
+
+
+
+
+
+

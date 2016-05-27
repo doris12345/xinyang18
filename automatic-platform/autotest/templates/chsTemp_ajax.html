@@ -1,0 +1,53 @@
+{#{% for i in mo %}#}
+{#    <option>{{ i.tempName }}</option>#}
+{#{% endfor %}#}
+{% for i in mo %}
+    <tr id="getTempTable" class="getTempTable">
+        <td>
+            <input type="checkbox" name="tempId" value="{{ i.id }}" class="checkboxAB">
+        </td>
+        <td>
+            <input type="text" name="proName1" value="{{ i.proName }}" readonly="readonly">
+        </td>
+        <td>
+            <input type="text" name="proName1" value="{{ i.id }}" readonly="readonly">
+        </td>
+        <td>
+            <input type="text" name="tempName" value="{{ i.tempName }}" readonly="readonly">
+        </td>
+
+        <td>
+            <input name="createUser" type="text" value="{{ i.createUser }}" readonly="readonly">
+        </td>
+
+        <td>
+            <input name="createTime" type="text" value="{{ i.createTime }}" readonly="readonly">
+        </td>
+
+        <td>
+            <input name="LastEdit" type="text" value="{{ i.LastEdit }}" readonly="readonly">
+        </td>
+
+        <td>
+            <input name="mdyTime" type="text" value="{{ i.mdyTime }}" readonly="readonly">
+        </td>
+    </tr>
+{% endfor %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery-1.10.1.js' %}"></script>
+<script>
+    $(".checkboxAB").click(function(){
+        var aa = [];
+        for(i=0;i<$(".checkboxAB").length;i++){
+            if($(".checkboxAB")[i].checked == true){
+               aa.push(i)
+            }
+        }
+        if(aa.length > 1 ){
+            alert("只能选择一条数据");
+            $(".checkboxAB")[aa[1]].checked = false;
+
+
+        }
+    })
+</script>

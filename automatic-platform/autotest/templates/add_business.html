@@ -1,0 +1,227 @@
+<form id="form_business" name="from_case" method="post" action="/add_business/">
+    <div class="rightbar">
+        <div class="top">
+            管理平台 &gt;
+            <span id="current_pro_name">{{ current_pro_name }}</span>
+            {% if bus_obj %}
+                <span>&gt;维护业务流</span></div>
+            {% else %}
+            <span>&gt;新建业务流</span></div>
+            {% endif %}
+        <div class="search">
+            {% if bus_obj %}
+                <span>业务流ID：{{ bus_obj.id }}</span>
+                <br>
+            {% endif %}
+            <span>业务流名称：</span><input style="width: 400px;" type="text" name="ywlname"
+                                      value="{{ bus_obj.name }}" placeholder="请输入业务流用例名称"
+                                      required autofocus>
+            <input type="hidden" name="current_pro_name" value={{ current_pro_name }}>
+            <span>例：前台注册-登录-资质认证申请-后台审核成功-发布资产-后台资产审核-前台首页资产展示</span>
+        </div>
+
+        <div class="btnlist re_position">
+            <a class="a_btn" id="bus_add_case">添加</a>
+            <a class="a_btn" id="bus_save_case">保存</a>
+
+            {% if bus_obj %}
+            <input type="hidden" name="bus_id" value="{{ bus_obj.id }}">
+            <input type="hidden" name="action" value="修改业务流">
+            {% else %}
+            <input type="hidden" name="action" value="保存业务流">
+            {% endif %}
+        </div>
+
+        <div class="tablelist">
+            <table class="list01 list02 tb" id="aabb">
+                <tr class="thead">
+                    <th width="45px">步骤</th>
+                    <th width="100px">用例类型</th>
+                    <th>用例标题</th>
+                    <th width="150px">时间</th>
+                    <th width="50px">性质</th>
+                    <th width="100px">操作</th>
+                </tr>
+                <tbody id="sortable">
+                {% if bus_obj or copybus_obj %}
+                    {% for i in bus_detail %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><input type="text" name="category" value='{{ i.category }}' readonly="readonly"></td>
+                            <td align="left">
+                                <input type="text" readonly="readonly" value="{{ i.name }}" name="case_name" width="80%">
+                            </td>
+                            <td>
+                                <input type="text" readonly="readonly" value="{{ i.date }}" name="case_date">
+                            </td>
+                            <td>
+                                <input type="text" readonly="readonly" value="{{ i.case_nature }}" name="case_nature">
+                            </td>
+
+                            <input type="hidden" value="{{ i.case_id }}" name="case_id">
+
+                            <td>
+                                <input class="dgb_all" type="button" name="{{ i.case_id }}" nature="{{ i.category }}">
+                                <input id="bus_del_case" type="button" name="{{ i.case_id }}">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</form>
+
+
+<div id="mask" class="mask"></div>
+
+{# 添加用例 #}
+<div class="dialog test_cases" id="bus_addcase_div" style="width: 1200px;height: 700px">
+    <input type="hidden" id="judge_bus" value="">
+    <div class="test_list mb_20">
+        <h3 style="font-size: 20px" align="center">添加用例</h3>
+         <div align="right">
+            <a class="a_btn" id="bus_tj_case">应用</a>
+            <a class="a_btn" id="gb_addcase_div">取消</a>
+        </div>
+        <div style="max-height: 500px;overflow-y: scroll">
+            <table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th width="30px"><input type="checkbox" class="all_case"></th>
+                    <th width="30px">计数</th>
+                    <th width="500px">用例标题</th>
+                    <th width="50px">性质</th>
+                    <th width="50px">独立性</th>
+                    <th width="50px">类型</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th width="30px"><input type="checkbox" class="all_case">&nbsp;全选</th>
+                    <th width="30px">计数</th>
+                    <th width="500px">用例标题</th>
+                    <th width="50px">性质</th>
+                    <th width="50px">独立性</th>
+                    <th width="50px">类型</th>
+                </tr>
+                </tfoot>
+                <tbody id="sortable">
+                {% for i in case_list %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="checkbox_case" name="{{ i.id }}">
+                        </td>
+
+                        <td>
+                            <a>{{ forloop.counter }}</a>
+                        </td>
+
+                        <td>
+                            <a>{{ i.name }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>{{ i.case_nature }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>{{ i.features }}</a>
+                        </td>
+
+                        <td align="center">Web用例</td>
+                    </tr>
+                {% endfor %}
+
+                {% for i in incase_list %}
+                    <tr>
+                       <td>
+                            <input type="checkbox" class="checkbox_case" name="{{ i.id }}">
+                        </td>
+
+                        <td>
+                            <a>{{ forloop.counter }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>{{ i.caseName }}</a>
+                        </td>
+
+                        <td align="center">
+                            <a>{{ i.nature }}</a>
+                        </td>
+
+                        <td align="center">独立用例</td>
+
+                        <td align="center">接口用例</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+<script>
+     $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // DataTable
+
+    //设置datatable的第一列无排序功能，否则在非第一页中点击全选会自动排序，调到第一页
+    $("#example").dataTable( {
+    "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }]
+    });
+    var table = $('#example').DataTable();
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+    });
+
+
+    $(function () {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+    });
+</script>

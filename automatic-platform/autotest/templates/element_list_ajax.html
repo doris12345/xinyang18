@@ -1,0 +1,130 @@
+{% load staticfiles %}
+
+<table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th width="45px">元素ID</th>
+        <th width="300px">名称</th>
+        <th width="120px">定位方法</th>
+        <th>元素值</th>
+        <th width="200px">页面路径</th>
+        <th>备注</th>
+        <th width="70px">操作</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th width="45px">元素ID</th>
+        <th width="300px">名称</th>
+        <th width="120px">定位方法</th>
+        <th>元素值</th>
+        <th width="200px">页面路径</th>
+        <th>备注</th>
+        <th width="70px">操作</th>
+    </tr>
+    </tfoot>
+    <tbody>
+    {% for ele in ele_list %}
+        <tr>
+            <td>
+                <a>{{ ele.id }}</a>
+                <input type="hidden" name="ele_id"  value="{{ ele.id }}">
+            </td>
+
+            <td>
+                <a style="width: 80%;">{{ ele.name }}</a>
+                <input name="name" type="hidden"  value="{{ ele.name }}">
+            </td>
+
+            <td>
+                <a>{{ ele.fun }}</a>
+                <input name="fun" type="hidden" value="{{ ele.fun }}">
+            </td>
+
+            <td>
+                <a>{{ ele.values }}</a>
+                <input name="value" type="hidden" value="{{ ele.values }}">
+            </td>
+
+            <td>
+                <a>{{ ele.page_url }}</a>
+                <input name="page_url" type="hidden" value="{{ ele.page_url }}">
+            </td>
+
+            <td>
+                <a>{{ ele.desc }}</a>
+                <input name="desc" type="hidden" value="{{ ele.desc }}" >
+            </td>
+
+            <td>
+                <input class="bj_ele" type="button" name="{{ ele.id }}" ele_name="{{ ele.name }}" title="编辑">
+                <input class="yy_ele" type="button" name="{{ ele.id }}" ele_name="{{ ele.name }}" title="应用">
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    td.highlight {
+    background-color: whitesmoke !important;
+    }
+    .changecolor{
+        background-color:darkseagreen;
+    }
+
+</style>
+
+<script>
+  $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    var id={{ ele_id }};
+    $('#example tbody').find("tr").each( function () {
+        ele_id=$(this).children().eq(0).text();
+
+        if(id == parseInt(ele_id)){
+             $(this).children().addClass('changecolor');
+        }
+
+    } );
+    // DataTable
+    var table = $('#example').DataTable();
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+  });
+
+
+
+
+</script>

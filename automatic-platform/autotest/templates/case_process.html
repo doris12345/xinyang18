@@ -1,0 +1,336 @@
+<div class="rightbar">
+    <form id="save_process" method="post" action="/case_process/">
+        <div>
+            <div class="top"> 管理平台 &gt; <span id="current_pro_name">{{ current_pro_name }}</span>
+                {% if case_obj %}
+                    <span>&gt维护测试用例</span>
+                {% else %}
+                    <span>&gt新增测试用例</span>
+                {% endif %}
+            </div>
+            <div class="search">
+                <div>
+                    {% if case_obj %}
+                        <span>用例ID:</span>{{ case_obj.id }}
+                        <input type="hidden" name="process_id" value="{{ case_obj.id }}">
+                        <br>
+                    {% endif %}
+                    <span>用例名称：</span><input style="width: 400px;" id="casename" type="text" value="{{ case_obj.name }}" name="casename"/>
+                    <span>例：后台-审核页面-基本信息-证件号码字段显示的是客户姓名</span>
+                </div>
+
+                <div>
+                    <span>案例性质：</span>
+                    <select name="nature">
+                        {% if case_obj.case_nature == "反案例" or copycase_obj.case_nature == "反案例" %}
+                            <option value="反案例">反案例</option>
+                            <option value="正案例">正案例</option>
+                        {% else %}
+                            <option value="正案例">正案例</option>
+                            <option value="反案例">反案例</option>
+                        {% endif %}
+                    </select>
+
+                    <span>选择浏览器：</span>
+                    <select name="browser">
+                        {% if case_obj.browser == "谷歌浏览器" or copycase_obj.browser == "谷歌浏览器"%}
+                            <option value="谷歌浏览器">谷歌浏览器</option>
+                            <option value="火狐浏览器">火狐浏览器</option>
+                        {% else %}
+                            <option value="火狐浏览器">火狐浏览器</option>
+                            <option value="谷歌浏览器">谷歌浏览器</option>
+                        {% endif %}
+                    </select>
+
+
+                    <span>用例状态：</span>
+                    <select name="status">
+                        {% if case_obj.status == "无效" or copycase_obj.status == "无效"%}
+                            <option value="无效">无效</option>
+                            <option value="有效">有效</option>
+                        {% else %}
+                            <option value="有效">有效</option>
+                            <option value="无效">无效</option>
+                        {% endif %}
+                    </select>
+
+                    <span>用例特性:</span>
+                    <select name="features">
+                        {% if case_obj.features == "基础用例" or copycase_obj.features == "基础用例"%}
+                            <option value="基础用例">基础用例</option>
+                            <option value="独立用例">独立用例</option>
+                        {% else %}
+                            <option value="独立用例">独立用例</option>
+                            <option value="基础用例">基础用例</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+            </div>
+            <div class="btnlist re_position">
+                <a class="a_btn" id="save_case_process">保存</a>
+                <input type="hidden" id="user" name="username" value=" ">
+                {% if case_obj %}
+                    {#  如果是维护用例页面，提交表单时action：修改用例 #}
+                    <input type="hidden" name="action" value="修改用例">
+                {% else %}
+                    {#  如果是新增用例页面，提交表单时action：保存用例 #}
+                    <input type="hidden" name="action" value="保存用例">
+                    <input type="hidden" name="current_name" value='{{ current_pro_name }}'/>
+                {% endif %}
+            </div>
+
+            <div class="tablelist">
+                <table class="list01 list02" id="tb">
+                    <thead>
+                    <tr class="thead">
+                        <th width="45">步骤</th>
+                        <th>步骤说明</th>
+                        <th width="120">执行动作</th>
+                        <th>输入值</th>
+                        <th>元素</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sortable">
+                    {% if case_obj or copycase_obj %}
+                        {% for i in case_detail %}
+                            <tr id="tr0">
+                                <td style="display:none">
+                                    <input type="checkbox" class="checkbox_step" name="checkbox">
+                                </td>
+
+                                <td>{{ forloop.counter }}</td>
+
+                                <td>
+                                    <input type="text" name="desc" value= '{{ i.desc }}' style="width:80%">
+                                </td>
+
+                                <td>
+                                    <select name="fun" style="width: 80%;font-size: 10px" class="select">
+                                        <option value='{{ i.action }}'>{{ i.action }}</option>
+                                        <option value="单击">单击</option>
+                                        <option value="输入">输入</option>
+                                        <option value="标准断言">标准断言</option>
+                                        <option></option>
+                                        <option style="font-size: 10px">请选择</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input type="text" name="value" value='{{ i.value }}' style="width:80%">
+                                </td>
+
+                                <td>
+                                    <input type="hidden" id="ele_id" name="ele_id" value="{{ i.ele_id }}">
+                                    <a href="#" class="ele_name" style="color: lightseagreen">{{ i.ele_name }}</a>
+                                </td>
+
+                                <td id='operation2'>
+                                    <input id="xg_addstep" type="button" name="{{ i.id }}" title="新增步骤">
+                                    <input class="delstep" type="button" name="{{ i.id }}" title="删除步骤">
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="dialog test_cases" id="element_list" style="height: 600px;width: 1200px">
+    <div class="test_list mb_20">
+        <h1 style="font-size: 22px" align="center">元素列表</h1>
+        <input type="hidden" id="chosen_ele_index" value=""/>
+        <div align="right">
+            <a class="a_btn" id="close_ele_list">取消</a>
+        </div>
+        <div style="max-height: 900px;overflow-y: scroll" id="table_div">
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+<div id="mask" class="mask"></div>
+
+<div style="display: none;width: 1000px;height: 700px" id="fun_list" class="dialog test_cases">
+    <h6 align="center" style="font-size: 20px">动作列表</h6>
+    <div align="right">
+        <a class="a_btn" id="yy_fun">应用</a>
+        <a class="a_btn" id="gb_fun_div">取消</a>
+    </div>
+    <div style="max-height: 600px;overflow-y: scroll">
+        <table id="example_fun" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th width="20"></th>
+                <th width="120">名称</th>
+                <th>说明</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th width="20"></th>
+                <th width="120">名称</th>
+                <th>说明</th>
+            </tr>
+            </tfoot>
+            <tbody id="sortable">
+            {% for i in fun_list %}
+                <tr>
+                    <td>
+                        <input type="checkbox" class="checkbox_fun" value="{{ i.name }}">
+                    </td>
+                    <td align="center">
+                        <a>{{ i.name }}</a>
+                    </td>
+                    <td>
+                        <a>{{ i.desc }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="dialog test_cases" id="mdy_ele_div" style="height: 200px;width: 1200px" align="center">
+    <h1 style="font-size: 22px" align="center">修改元素</h1>
+    <form method="post" id="mdy_ele_form" action="/case_process/">
+        <div style="margin-top: 20px">
+            <table class="list01 list02" style="margin-top: 10px">
+                <tr class="thead">
+                    <th style="width: 50px">元素ID</th>
+                    <th>名称</th>
+                    <th style="width: 120px">定位方法</th>
+                    <th>元素值</th>
+                    <th>页面路径</th>
+                    <th>备注</th>
+                </tr>
+                <tr class="mdf_ele">
+                    <td>
+                        <input type="text" id="m_id" name="ele_id" readonly="readonly">
+                    </td>
+                    <td>
+                        <input name="name" id="m_name" type="text" value="">
+                    </td>
+
+                    <td>
+                        <select name="function" id="m_fun">
+                            <option></option>
+                            {% for i in fun %}
+                                <option value="{{ i.name }}">{{ i.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input name="value" type="text" id="m_val">
+                    </td>
+                    <td><input name="page_url" type="text" id="m_url">
+                    </td>
+                    <td>
+                        <input name="desc" type="text" id="m_desc">
+                    </td>
+                </tr>
+            </table>
+
+            <div align="center" style="margin-top: 20px">
+                <input type="hidden" name="action" value="修改元素">
+                <input type="hidden" name="pro_name" value="{{ current_pro_name }}">
+                <a class="a_btn" id="mdy_sure">修改</a>
+                <a class="a_btn" id="close_mdy_ele">取消</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="dialog test_cases" id="add_element" style="height: 200px;width: 1200px">
+    <h1 style="font-size: 22px" align="center">添加元素</h1>
+    <form id="save_add_ele" method="post" action="/case_process/">
+
+        <div style="margin-top: 20px">
+            <table class="list01 list02" style="margin-top: 10px">
+                <tr class="thead">
+                    <th>名称</th>
+                    <th>定位方法</th>
+                    <th>元素值</th>
+                    <th>页面路径</th>
+                    <th>备注</th>
+                </tr>
+
+                <tbody>
+                <tr>
+                    <td>
+                        <input name="name" type="text" autocomplete="off" required autofocus>
+                    </td>
+
+                    <td>
+                        <select name="function" autocomplete="off" required autofocus>
+                            <option></option>
+                            {% for i in fun %}
+                                <option value="{{ i.name }}">{{ i.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input name="value" type="text" autocomplete="off" required autofocus>
+                    </td>
+                    <td><input name="page_url" type="text" autocomplete="off" required autofocus>
+                    </td>
+                    <td>
+                        <input name="desc" type="text" autocomplete="off" required autofocus>
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+        <div align="center" style="margin-top: 20px">
+            <input type="hidden" name="action" value="添加元素">
+            <input type="hidden" name="pro_name" value="{{ current_pro_name }}">
+            <a class="a_btn" id="add_sure">保存</a>
+            <a class="a_btn" id="close_ele">取消</a>
+        </div>
+    </form>
+</div>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#example').dataTable();
+    })
+
+    $(document).ready(function () {
+        $('#example_fun').dataTable();
+    })
+
+    $(document).ready(function () {
+        var username = document.getElementById("username").innerHTML;
+        $('#user').val(username);
+    })
+</script>
+
+
+{% comment %}
+
+说明:
+case_obj为真的时候,载入的是维护用例功能页面。默认为新增用例页面
+
+{% endcomment %}

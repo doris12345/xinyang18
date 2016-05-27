@@ -1,0 +1,148 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt;<span id="current_project">{{ current_project }}</span><span>&gt;接口模版管理</span></div>
+    <br>
+
+    <form id="paramManager" name="paramManager" method="post" action="">
+        <div>
+            {% if project_type == "JSON接口测试" or  project_type == "Web&JSON接口测试" %}
+                <a href="#" class="a_btn" id="add_json" name="{{ current_project }}">新增</a>
+            {% else %}
+                <a href="#" class="a_btn" id="add_jms" name="{{ current_project }}">新增</a>
+            {% endif %}
+        </div>
+        <br>
+
+        <div class="tablelist" style="max-height: 750px;overflow-y:scroll;">
+            <table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th width="40">模版ID</th>
+                    <th>模版名称</th>
+                    <th width="80">项目名称</th>
+                    <th width="80">创建人</th>
+                    <th width="150">创建时间</th>
+                    <th width="60">模板类型</th>
+                    <th width="150">修改时间</th>
+                    <th width="150">操作</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th width="40">模版ID</th>
+                    <th>模版名称</th>
+                    <th width="80">项目名称</th>
+                    <th width="80">创建人</th>
+                    <th width="150">创建时间</th>
+                    <th width="60">模板类型</th>
+                    <th width="150">修改时间</th>
+                    <th width="150">操作</th>
+                </tr>
+                </tfoot>
+                <tbody id="sortable">
+                {% for i in protemp_list %}
+                    <tr id="getTempTable" class="getTempTable">
+                        <td>
+                            <a>{{ i.id }}</a>
+                        </td>
+                        <td>
+                            <a>{{ i.tempName }}</a>
+                        </td>
+                        <td>
+                            <a>{{ i.proName.name }}</a>
+                        </td>
+
+                        <td>
+                            <a>{{ i.createUser }}</a>
+                        </td>
+
+                        <td>
+                            <a>{{ i.createTime }}</a>
+                        </td>
+
+                        <td>
+                            <a>{{ i.template_type }}</a>
+                        </td>
+
+                        <td>
+                            <a>{{ i.last_time }}</a>
+                        </td>
+                        <td align="center" id="operation2">
+                            <input id="mdy_tmp" type="button" name="{{ i.id }}" tmp_type="{{ i.template_type }}" pro_name="{{ current_project }}" title="编辑">
+                            <input class="copy_template" type="button" name="{{ i.id }}" tmp_type="{{ i.template_type }}" pro_name="{{ current_project }}" title="复制">
+                            <input class="create_case" type="button" name="{{ i.id }}" title="创建用例">
+                            <input id="del_template" type="button" name="{{ i.id }}" title="删除">
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </form>
+</div>
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+
+    td.highlight {
+        background-color: whitesmoke !important;
+    }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        $('#example_fun').dataTable();
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function () {
+            var title = $('#example thead th').eq($(this).index()).text();
+            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#example').DataTable();
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                that
+                        .search(this.value)
+                        .draw();
+            });
+        });
+        var lastIdx = null;
+        $('#example tbody').on('mouseover', 'td', function () {
+            var colIdx = table.cell(this).index().column;
+
+            if (colIdx !== lastIdx) {
+                $(table.cells().nodes()).removeClass('highlight');
+                $(table.column(colIdx).nodes()).addClass('highlight');
+            }
+        })
+                .on('mouseleave', function () {
+                    $(table.cells().nodes()).removeClass('highlight');
+                });
+    });
+</script>
+
+
+
+
+
+

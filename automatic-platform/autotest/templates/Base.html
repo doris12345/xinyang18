@@ -1,0 +1,191 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/jquery.dataTables.min.css" %}"/>
+<link rel="stylesheet" href="{% static 'style/common.css' %}">
+<table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>位置</th>
+            <th>办公室</th>
+            <th>年龄</th>
+            <th>开始日期</th>
+            <th>工资</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+        </tr>
+    </tfoot>
+    <tbody id="sortable">
+        <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td>61</td>
+            <td>2011/04/25</td>
+            <td>$320,800</td>
+        </tr>
+        <tr>
+            <td>Garrett Winters</td>
+            <td>Accountant</td>
+            <td>Tokyo</td>
+            <td>63</td>
+            <td>2011/07/25</td>
+            <td>$170,750</td>
+        </tr>
+        <tr>
+            <td>Ashton Cox</td>
+            <td>Junior Technical Author</td>
+            <td>San Francisco</td>
+            <td>66</td>
+            <td>2009/01/12</td>
+            <td>$86,000</td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="mask" class="mask"></div>
+<div style="display: none" id="fun_list" class="dialog test_cases">
+    <h6 align="center" style="font-size: 20px">动作列表</h6>
+    <div align="right">
+        <a class="a_btn" id="yy_fun">应用</a>
+        <a class="a_btn" id="gb_fun_div">取消</a>
+    </div>
+    <div>
+        <table id="example_fun" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>名称</th>
+            <th>说明</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>名称</th>
+            <th>说明</th>
+        </tr>
+    </tfoot>
+    <tbody id="sortable">
+    {% for i in fun_list %}
+        <tr>
+            <td>
+                <input type="checkbox" class="checkbox_fun" value="{{ i.name }}">
+            </td>
+            <td>
+                <a>{{ i.name }}</a>
+            </td>
+            <td>
+                <a>{{ i.desc }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
+</div>
+
+<select class="select">
+    <option ></option>
+    <option value="单击">单击</option>
+    <option value="输入">输入</option>
+    <option >请选择</option>
+</select>
+
+
+
+<script type="text/javascript" src="{% static 'js/jquery-1.10.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js'%}"></script>
+
+
+<script>
+    function showDialog() {
+    var objW = $(window); //当前窗口
+    var objC = $(".dialog"); //对话框
+    var brsW = objW.width();
+    var brsH = objW.height();
+    var sclL = objW.scrollLeft();
+    var sclT = objW.scrollTop();
+    var curW = objC.width();
+    var curH = objC.height();
+    //计算对话框居中时的左边距
+    var left = sclL + (brsW - curW) / 2;
+    //计算对话框居中时的上边距
+    var top = sclT + (brsH - curH) / 2;
+    //设置对话框在页面中的位置
+    objC.css({"left": left, "top": top});
+}
+</script>
+
+
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        $('#example_fun').dataTable();
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // DataTable
+    var table = $('#example').DataTable();
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        } );
+    } );
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function () {
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+    });
+</script>
+
+
+ <script>
+$(function () {
+    $("#sortable").sortable();
+    $("#sortable").disableSelection();
+});
+</script>

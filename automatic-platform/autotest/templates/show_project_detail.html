@@ -1,0 +1,81 @@
+{% load staticfiles %}
+<div class="rightbar">
+    <div class="top">管理平台 &gt;<span>项目详细信息</span></div>
+
+    <div>
+        <span>项目ID: {{ pro_obj.id }}</span><br>
+    </div>
+
+    <span>基本信息:</span>
+    <div class="add_pro">
+         <table class="list01 list02 list05">
+         <tr class="thead">
+                <td>项目名称</td>
+                <td>项目地址</td>
+                <td>项目状态</td>
+                <td>测试类型</td>
+            </tr>
+            <tr>
+                <td>{{ pro_obj.name }}</td>
+                <td>{{ pro_obj.url }}</td>
+                <td>{{ pro_obj.pro_status }}</td>
+                <td>{{ pro_obj.test_type }}</td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+
+    <span>数据库信息:</span>
+    <div class="add_DB">
+         <table class="list01 list02 list05">
+            <tr class="thead">
+                <td>数据库名称</td>
+                <td>数据库地址</td>
+                <td>端口号</td>
+                <td>连接类型</td>
+                <td>连接数据</td>
+                <td>用户名</td>
+                <td>密码</td>
+                <td>数据库状态</td>
+            </tr>
+            {% for i in  db_obj %}
+            <tr>
+                <td>{{ i.envName }}</td>
+                <td>{{ i.address }}</td>
+                <td>{{ i.port }}</td>
+                <td>{{ i.connectType }}</td>
+                <td>{{ i.connectData }}</td>
+                <td>{{ i.userName }}</td>
+                <td>{{ i.passWord }}</td>
+                <td>{{ i.is_used }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+    <span id="add_people">项目人员:&nbsp; &nbsp;&nbsp;</span>
+    <div class="peoples"><textarea id='add_cy' class="memberlist" readonly="readonly">{{ pro_obj.pro_user }}</textarea></div>
+
+    <span id="add_people">历史操作:&nbsp; &nbsp;&nbsp;</span>
+    <div >
+        <span>
+             {% for action in history_list %}
+                 {% if action.action == "create" %}
+                    {{ forloop.counter }}、{{ action.actiondate }},由 <span class="his">{{ action.actor }}</span> 创建。<br/>
+                 {% elif action.action == "addDB" %}
+                    {{ forloop.counter }}、{{ action.actiondate }},由 <span class="his">{{ action.actor }}</span> 添加数据库配置 "<span class="his">{{ action.edit_field }}</span>" 为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% elif action.action == "delDB" %}
+                    {{ forloop.counter }}、{{ action.actiondate }},由 <span class="his">{{ action.actor }}</span> 删除数据库配置 "<span class="his">{{ action.envName }}</span>"。<br/>
+                  {% elif action.action == "editDB" %}
+                    {{ forloop.counter }}、{{ action.actiondate }},由 <span class="his">{{ action.actor }}</span> 修改数据库配置 "<span class="his">{{ action.envName }}</span>"。将字段"<span class="his">{{ action.edit_field }}</span>"由"<span class="his">{{ action.old_field_value }}</span>"修改为"<span class="his">{{ action.new_field_value }}</span>"。<br/>
+                 {% else %}
+                    {{ forloop.counter }}、{{ action.actiondate }}, <span class="his">{{ action.actor }}</span> 将字段 "<span class="his">{{ action.edit_field }}</span>" 的值由 "<span class="his">{{ action.old_field_value }}</span>" 修改为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% endif %}
+             {% endfor %}
+        </span>
+    </div>
+
+</div>
+
+

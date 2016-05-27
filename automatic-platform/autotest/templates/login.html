@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>登录</title>
+    {% load staticfiles %}
+	<link rel="stylesheet" href="{% static "style/common.css" %}" />
+	<!--[if lt IE 9]>   <link href="style/IE8.css" rel="stylesheet" type="text/css" />  <![endif]-->
+</head>
+<body>
+	<div class="login">
+		<div class="title">
+			<p>自动化测试管理平台</p>
+		</div>
+		<div class="main clearfix">
+			<div class="description fl">
+				<div class="floater"></div>
+				<div class="content">
+
+                    <marquee scrolldelay="50" direction="up" behavior="slide"   >
+                        测试的美你不懂，<br />我为自动化测试代言
+                        </marquee>
+                </div>
+
+			</div>
+			<div class="loginbox fl">
+				<h2>登录</h2>
+				<form id="login" class="form-signin" method="post">
+					<div class="re_position">
+						<span class="username_icon ab_position"></span>
+						<input name="username" type="text" value="用户名" style="color:rgb(216, 216, 216);" onfocus="if (this.value=='用户名'){this.value='';this.style.color='#fff'}" onblur="if (this.value==''){this.value='用户名';this.style.color='rgb(216, 216, 216)'}">
+					</div>
+					<div class="re_position">
+						<span class="pwd_icon ab_position"></span>
+						<input name="" type="text" value="密码" class="tx" style="color:rgb(216, 216, 216);"  />
+						<input name="password"  type="password"  style="display:none;" class="pwd" />
+					</div>
+					<input type="button" name="submit" class="a_btn" id="login_btn" value="登录"/>
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<div style="font-size: 20px;color: #ffffff" class="footer">版权所有 © 上海金鹿金融信息服务有限公司 沪ICP备14004813号-3</div>
+	<script type="text/javascript" src="{% static "js/jquery-1.10.1.js" %}" ></script>
+	<script type="text/javascript" src="{% static "js/click_func.js" %}" ></script>
+    <script type="text/javascript" src="{% static 'js/jquery.form.js' %}"></script>
+
+	<script type="text/javascript">
+		var tx = $(".tx"), 
+			pwd = $(".pwd");
+		tx.focus(function(){
+			if(this.value != "密码") return;
+			$(this).hide();
+			pwd.show();
+			pwd.val(""); 
+			pwd.focus();
+		})
+		pwd.blur(function(){
+			if(this.value != "") return;
+			$(this).hide();
+			tx.show();
+			tx.val("密码"); 
+		})
+	</script>
+
+
+<script>
+    // 登录按钮点击时间
+    $("#login_btn").click(function () {
+        $("#login").ajaxSubmit(function (date) {
+            if(date == "验证成功"){
+                location.href = "/index/";
+            }
+            else{
+                alert("用户名或密码错误");
+            }
+        })
+    })
+
+</script>
+
+<script type="text/javascript">
+    // 绑定回车键事件
+    document.onkeydown = function (e) {
+    var theEvent = window.event || e;
+    var code = theEvent.keyCode || theEvent.which;
+    if (code == 13) {
+        $("#login_btn").click();
+    }
+
+    }
+</script>
+
+</body>
+</html>

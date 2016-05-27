@@ -1,0 +1,79 @@
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span id="current_pro_name">{{ current_pro_name }}</span>
+        <span>&gt用例详细信息</span>
+    </div>
+
+    <div class="search">
+        <div>
+            <span>用例ID: {{ case_obj.id }}</span><br>
+            <span>用例名称：{{ case_obj.name }}</span><br>
+            <span>案例性质：{{ case_obj.case_nature}}</span><br>
+            <span>选择浏览器：{{ case_obj.browser}}</span><br>
+            <span>用例状态：{{ case_obj.status }}</span><br>
+            <span>用例特性: {{ case_obj.features }}</span><br>
+        </div>
+    </div>
+
+    <div class="tablelist">
+        <table class="list01 list02" id="tb">
+            <thead>
+            <tr class="thead">
+                <th width="45">步骤</th>
+                <th>步骤说明</th>
+                <th width="120">执行动作</th>
+                <th>输入值</th>
+                <th>元素</th>
+            </tr>
+            </thead>
+            <tbody id="sortable">
+                {% for i in case_detail %}
+                    <tr id="tr0">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.desc }}</td>
+                        <td>{{ i.action }}</td>
+                        <td>{{ i.value }}</td>
+                        {% if  i.ele_name  !=  "添加元素" %}
+                        <td>{{ i.ele_name }}</td>
+                        {% else %}
+                        <td> </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <span id="add_people">历史操作:&nbsp; &nbsp;&nbsp;</span>
+    <div>
+        <span>
+             {% for action in history_list %}
+                 {% if action.action == "create" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , 由 <span class="his">{{ action.actor }}</span> 创建。<br/>
+                 {% elif action.action == "debug" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , 由 <span class="his">{{ action.actor }}</span> 调试 。<br/>
+                 {% elif action.action == "addstep" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , 由 <span class="his">{{ action.actor }}</span> 新增步骤 "<span class="his">{{ action.step_desc }}</span>" 。<br/>
+                 {% elif action.action == "delstep" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , <span class="his">{{ action.actor }}</span> 删除步骤 "<span class="his">{{ action.step_desc }}</span>" 。<br/>
+                 {% elif action.action == "editstep" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , <span class="his">{{ action.actor }}</span> 修改步骤 "<span class="his">{{ action.step_desc }}</span>" 。将字段 "<span class="his">{{ action.edit_field}}</span>" 的值由 "<span class="his">{{ action.old_field_value }}</span>" 修改为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% elif action.action == "edit"%}
+                    {{ forloop.counter }}、{{ action.actiondate }} , <span class="his">{{ action.actor }}</span> 将字段 "<span class="his">{{ action.edit_field }}</span>" 的值由 "<span class="his">{{ action.old_field_value }}</span>" 修改为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% endif %}
+             {% endfor %}
+        </span>
+    </div>
+
+</div>
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+
+<script>
+    $(function() {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+    });
+</script>
+

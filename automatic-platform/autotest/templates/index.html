@@ -1,0 +1,308 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>平台首页</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "style/common.css" %}"/>
+    <link href="{% static 'css/jquery.dataTables.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+{# top #}
+<span>{{pro_case}}</span>
+<input type="hidden" id="judge_case" value="" >
+<input type="hidden" id="judge_id" value="" >
+<div class="header clearfix">
+    <ul class="fl clearfix ml_15">
+        <li><img src="{% static "img/logo.png" %}" alt=""/></li>
+        <li class="mrl_15"><img src="{% static "img/headerline.png" %}" alt=""/></li>
+        <li class="fs_24">自动化测试管理平台<span class="fs_16">（v2.0）</span></li>
+    </ul>
+    <ul class="fr clearfix">
+        <li class="fs_20 mr_25"><img src="{% static "img/user.png" %}" alt="" class="mr_15"/>欢迎你，<span id="username">{% block first_name %}{{ first_name }}{% endblock %}</span></li>
+        <li class="fs_18 prl_25 bl"><img id="logout" src="{% static "img/logoff.png" %}" alt=""/><a href="/logout_page/" class="ml_15">退出</a></li>
+    </ul>
+</div>
+
+
+<form id="post_form" method="get" action="add_case">
+    <input id="post_pro_name" type="hidden" name="pro_name">
+</form>
+
+{# left #}
+<div class="left" >
+    <div class="leftbar" >
+        <h2><a href="/index/">首页</a></h2>
+        <h2><a href="http://172.16.200.50/liuzihang/yggdrasil/tree/master/code/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B9%B3%E5%8F%B0%E5%AE%A2%E6%88%B7%E7%AB%AF">相关工具下载</a></h2>
+    </div>
+
+    {% block project_name %}
+        <div class="leftbar" >
+            <h2>项目名称</h2>
+            {% for key,value in pro_detail.items %}
+                <div class="leftnav" >
+                    <div name={{ value.pro_name }} class="showmore"><i>&nbsp;&nbsp;</i>{{ value.pro_name }}</div>
+                    <div class="hidden">
+                        <div class="subtitle">
+                            <ul>
+                                {% if value.test_type == "Web测试" %}
+                                <li><a onclick="event.preventDefault()" href="#">Web用例</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">元素列表</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">业务流</a></li>
+                                {% elif value.test_type == "JSON接口测试" or value.test_type == "JMS接口测试"%}
+                                <li><a onclick="event.preventDefault()" href="#">业务流</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">接口用例</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">接口模版管理</a></li>
+                                {% else %}
+                                <li><a onclick="event.preventDefault()" href="#">Web用例</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">元素列表</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">业务流</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">接口用例</a></li>
+                                <li><a onclick="event.preventDefault()" href="#">接口模版管理</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endblock %}
+
+    <div class="leftbar" >
+        <div class="leftnav">
+            <h2>测试场景管理</h2>
+            <ul>
+                <li><a id="test" href="#">新建场景</a></li>
+                <li><a href="#">维护场景</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="test_manager" name="{{ is_superuser }}" class="leftbar" >
+        <div class="leftnav">
+            <h2>测试管理</h2>
+            <ul>
+                <li><a href="#" id="case_perform_link">测试执行</a></li>
+                <li><a href="#" id="resut_page">结果详情</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="manager" name="{{ is_superuser }}" class="leftbar" >
+        <div class="leftnav">
+            <h2>后台管理</h2>
+            <ul>
+                <li><a href="#" id="project_management">项目管理</a>
+                <li><a href="#" id="user_management">用户管理</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{# center #}
+<div class="center" onClick="show_menu()"></div>
+
+{# right #}
+{% block context %}
+    <div class="right" style="position: relative;float: left;width: 84%;">
+        <div class="rightbar">
+            <div class="top"> 管理平台 &gt; <span>我的首页</span></div>
+            <div class="tablelist">
+                <h3>项目</h3>
+                <table class="list01">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>项目名称</th>
+                        <th>测试用例数（个）</th>
+                        <th>创建时间</th>
+                        <th>测试类型</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for key,value in pro_detail.items %}
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td align="center">{{ value.pro_name}}</td>
+                                    <td align="center">{{ value.case_count}}</td>
+                                    <td align="center">{{ value.create_time}}</td>
+                                    <td align="center">{{ value.test_type}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tablelist">
+                <h3>测试场景</h3>
+                <table class="list01">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>场景名称</th>
+                        <th>测试用例数（个）</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>场景1-易联平台</td>
+                        <td>100</td>
+                        <td>2014-7-13 09:50:36</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>场景2-易联平台</td>
+                        <td>50</td>
+                        <td>2014-7-13 09:50:36</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tablelist">
+                <h3>测试执行</h3>
+                <table class="list01">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>场景名称</th>
+                        <th>场景数（个）</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>执行1-易联平台</td>
+                        <td>1</td>
+                        <td>2014-7-13 09:50:36</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>执行2-易联平台</td>
+                        <td>2</td>
+                        <td>2014-7-13 09:50:36</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+<script type="text/javascript" src="{% static "js/jquery-1.10.1.js" %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.form.js' %}"></script>
+<script type="text/javascript" src="{% static "js/click_func.js" %}"></script>
+
+{#判断用户是否为超级管理员，决定是否显示后台管理和执行管理#}
+<script>
+    $(function () {
+        var manager = $("#manager");
+        var test_perform = $("#test_perform");
+        if (test_perform.attr("name") == "False") {
+            test_perform.hide();
+            manager.hide();
+        }
+    });
+
+
+    /* 点击选项获取项目名称 */
+    var subtitle = $('div.hidden .subtitle ul li');
+
+
+    (function ($) {
+        $('div.hidden .subtitle ul li').click(function () {
+            var btn_name = $(this).text();
+            var pro_name = $(this).parents('.hidden').prev('div.showmore').text().trim();  {#获取项目名称#}
+            if (btn_name == "Web用例") {
+                $.post("/case_list/", {"action": "页面跳转", redirect: pro_name}, function (date) {
+                    $(".right").empty();
+                    $(".right").append(date);
+                })
+            }
+            else if (btn_name == "业务流") {
+                $.post("/business_list/", {"action": "页面跳转", redirect: pro_name}, function (date) {
+                    $(".right").empty();
+                    $(".right").append(date);
+                })
+            }
+            else if (btn_name == "接口用例") {
+                $.post("/interface_caselist/", {"action": "页面跳转", redirect: pro_name}, function (date) {
+                    $(".right").empty();
+                    $(".right").append(date);
+                })
+            }
+
+            else if (btn_name == "元素列表") {
+                $.post("/add_element/", {"action": "页面跳转", redirect: pro_name}, function (date) {
+                    $(".right").empty();
+                    $(".right").append(date);
+                })
+            }
+
+            else if (btn_name == "接口模版管理") {
+                $.post("/interfaceParamManager/", {"action": "页面跳转", redirect: pro_name}, function (date) {
+                    $(".right").empty();
+                    $(".right").append(date);
+                })
+            }
+        })
+    })(jQuery);
+</script>
+
+<script>
+
+    //退出平台
+    $("#logout").click(function () {
+        location.href = "/logout_page/";
+    })
+
+
+    //测试执行
+    $("#case_perform_link").click(function () {
+        $.get("/perform_list/", function (date) {
+            $(".right").empty();
+            $(".right").append(date);
+        })
+    })
+
+    //结果详情
+    $("#resut_page").click(function () {
+        $.get("/report/", function (date) {
+            $(".right").empty();
+            $(".right").append(date);
+        })
+
+    })
+
+    //项目管理
+    $("#project_management").click(function () {
+        $.get("/project_management/", function (date) {
+            $(".right").empty();
+            $(".right").append(date);
+        })
+    })
+
+    //用户管理
+    $("#user_management").click(function(){
+        $.get("/user_management/", function (date) {
+            $(".right").empty();
+            $(".right").append(date);
+        })
+    })
+
+</script>
+
+</body>
+</html>
+
+

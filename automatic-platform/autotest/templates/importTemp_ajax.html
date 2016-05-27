@@ -1,0 +1,53 @@
+{% for i in mo %}
+    <tr class="mdyTempTable">
+        <td>
+            <input type="checkbox" name="mdyTempId" value="{{ i.id }}" class="checkboxA">
+        </td>
+        <td>
+            <input name="objName" value="{{ i.objName }}">
+        </td>
+        <td>
+            <select id='key1' name='key1' class='opt' >
+                <option>{{ i.part }}</option>
+                <option>datagramHeader</option>
+                <option>datagramBody</option>
+                <option>messageCode</option>
+                <option>targetSystemCode</option>
+            </select>
+        </td>
+
+        <td>
+            <input name="key2" value="{{ i.list }}">
+        </td>
+
+        <td>
+            <input name="key3" value="{{ i.key }}" >
+        </td>
+
+        <td>
+            <select id='type' name='type' class='opt' >
+                <option>{{ i.type }}</option>
+                <option>all</option>
+                <option>send</option>
+                <option>receive</option>
+        </select>
+        </td>
+    </tr>
+{% endfor %}
+<script>
+
+    $(".checkboxA").click(function () {
+        alert("2222222222");
+        var checkbox = $(".checkboxA");
+        var num = 0;
+        for (var i = 0; i < checkbox.length; i++) {
+            if (checkbox[i].checked == true) {
+                num++;
+            }
+        }
+        if (num >= 2) {
+            this.checked = false;
+            alert("只能选择一条记录！");
+        }
+    });
+</script>

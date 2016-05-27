@@ -1,0 +1,160 @@
+<div class="rightbar" style="width: 100%">
+    <div class="top">
+        <span>管理平台</span> &gt; <span>新增测试执行</span>
+    </div>
+    <form method="post" action="/ad_perform/" id="add_perform">
+        <div class="search">
+            {% if c_obj %} {#  如果是维护执行,显示用例的ID  #}
+            <span>测试执行ID:{{ c_obj.id }}</span>
+            <input type="hidden" name="c_id" value="{{ c_obj.id }}">
+            <br>
+            {% endif %}
+            <span>测试执行名称：</span><input type="text" name="name" value="{{ c_obj.name }}" placeholder="请输入业务流用例名称">
+        </div>
+
+        <div class="btnlist re_position">
+            <a class="a_btn" id="a_pr">添加用例</a>
+            <a class="a_btn" id="a_bus">添加业务流</a>
+            <a class="a_btn" id="d_pr">删除用例</a>
+            <a class="a_btn" id="s_pr">保存执行</a>
+            {% if detail_list %}
+            <input type="hidden" name="action" value="修改执行">
+            {% else %}
+            <input type="hidden" name="action" value="保存执行">
+            {% endif %}
+        </div>
+
+        <div class="tablelist">
+            <table class="list01 list02">
+                <tr class="thead">
+                    <th width="45px"></th>
+                    <th width="50px">用例ID</th>
+                    <th width="150px">用例类型</th>
+                    <th>用例名称</th>
+                    <th width="150px">创建时间</th>
+                    <th width="150px">修改时间</th>
+                    <th width="150px">用例维护</th>
+                </tr>
+                <tbody>
+                {% if detail_list %} {# 维护执行加载改执行用例的详细内容 #}
+                    {%  for i in detail_list %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="checkbox">
+                        </td>
+                        <td>
+                            {% if i.case_id %}
+                            <input type="text" name="case_id" value="{{ i.case_id }}" readonly="readonly">
+                            <input type="hidden" name="bus_id">
+                            {% else %}
+                            <input type="text" name="bus_id" value="{{ i.api_id }}" readonly="readonly">
+                            <input type="hidden" name="case_id">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <input type="text" name="case_type" value="{{ i.case_type }}" readonly="readonly">
+                        </td>
+                        <td>
+                            <input type="text" name="c_name" value="{{ i.name }}" readonly="readonly">
+                        </td>
+                        <td>
+                            <a>{{ i.create_date }}</a>
+                        </td>
+                        <td>
+                            <a>{{ i.edit_date }}</a>
+                        </td>
+                        <td>
+                            {% if i.api_id %}
+                            <a class="a_btn edit_pr_case" name="{{ i.api_id }}" status={{ i.case_type }}>用例维护</a>
+                            {% elif i.case_id %}
+                            <a class="a_btn edit_pr_case" name="{{ i.case_id }}" status={{ i.case_type }}>用例维护</a>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="mask" id="mask" ></div>
+
+<div id="a_case" class="dialog test_cases" style="left: 626.5px; top: 16.5px; display: none;width: 1200px;height:700px">
+
+     <h1 align="center" style="font-size: 30px">添加用例</h1>
+     <div align="right">
+        <select>
+            {% for i in pro_list %}
+            <option value="{{ i.id }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
+        <a class="a_btn" id="qry_case_ap">查询</a>
+        <a class="a_btn" id="add_a">添加</a>
+        <a class="a_btn" id="cencel_a">取消</a>
+    </div>
+    <div align="center" style="max-height: 590px;overflow-y:scroll;margin-top: 20px">
+
+    </div>
+
+</div>
+
+
+<div id="show_bus" class="dialog test_cases"  style="left: 626.5px; top: 16.5px; display: none;width: 1200px;height:700px">
+     <h1 align="center" style="font-size: 30px">添加业务流</h1>
+      <div align="right">
+        <select>
+            {% for i in pro_list %}
+            <option value="{{ i.id }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
+        <a class="a_btn" id="qry_bus_ap">查询</a>
+        <a class="a_btn" id="add_b">添加</a>
+        <a class="a_btn" id="cencel_b">取消</a>
+    </div>
+    <div align="center"  style="max-height: 590px;overflow-y:scroll;margin-top: 20px">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+
+<script>
+    //使用DataTable
+    $(document).ready(function () {
+        $('#example').dataTable();
+    })
+
+    $(document).ready(function () {
+        $('#example_bus').dataTable();
+    })
+</script>
+
+
+

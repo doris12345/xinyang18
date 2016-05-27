@@ -1,0 +1,113 @@
+
+{% load staticfiles %}
+<div class="rightbar">
+    <div class="top"> 管理平台 &gt; <span>项目管理</span></div>
+    <div class="btnlist re_position">
+        <a id="add_pro_btn" class="a_btn add_pro">新增</a>
+    </div>
+    <div class="tablelist">
+       <table id="example" class="row-border hover order-column" cellspacing="0" width="100%">
+            <thead>
+              <tr class="thead">
+                <th width="20">ID</th>
+                <th width="300">项目名称</th>
+                <th width="500">项目地址</th>
+                <th width="200">测试类型</th>
+                <th width="150">创建时间</th>
+                <th width="100">项目状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tfoot>
+            <tr class="thead">
+                <th width="20">ID</th>
+                <th width="300">项目名称</th>
+                <th width="500">项目地址</th>
+                <th width="200">测试类型</th>
+                <th width="150">创建时间</th>
+                <th width="100">项目状态</th>
+                <th>操作</th>
+            </tr>
+            </tfoot>
+            <tbody>
+                 {% for project in project_list %}
+                <tr>
+                    <td class="proid" id="pro_id">{{ project.id }}</td>
+                    <td class="proname pro_detail" name="{{ project.id }}" title="{{ project.name }}"> {{ project.name }} </td>
+                    <td class="prourl">{{ project.url }}</td>
+                    <td class="prourl">{{ project.test_type }}</td>
+                    <td class="create_time">{{ project.create_time }}</td>
+                    <td align="center" class="prostatus">{{ project.pro_status }}</td>
+                    <td align="center" id="operation3">
+                        <input id="modify_pro_btn" type="button" name="{{ project.id }}"  title="编辑">
+                        <input id="del_project" type="button" name="{{ project.id }}" title="删除">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    {#   定义被选中的单元格的背景色  #}
+    td.highlight {
+    background-color: whitesmoke !important;
+}
+</style>
+
+
+<script>
+    $(document).ready(function () {
+
+    // DataTable
+    var table = $('#example').DataTable();
+
+    // 在table最下面增加搜索框
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            that
+                .search( this.value )
+                .draw();
+        });
+    });
+
+    //当鼠标移至表格单元时，该单元格所在的列的背景色为选中；移开则消失
+    var lastIdx = null;
+    $('#example tbody').on('mouseover', 'td', function () {
+        var colIdx = table.cell(this).index().column;
+        if (colIdx !== lastIdx) {
+            $(table.cells().nodes()).removeClass('highlight');
+            $(table.column(colIdx).nodes()).addClass('highlight');
+        }
+    })
+            .on('mouseleave', function (){
+                $(table.cells().nodes()).removeClass('highlight');
+            });
+
+});
+
+
+</script>
+
+
+
+
+

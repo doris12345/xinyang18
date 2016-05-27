@@ -1,0 +1,84 @@
+<div style="margin-top: 10px">
+    <table class="list01 list02 tempTable">
+        <tr class="thead">
+            <th>参数名称</th>
+            <th>组件名称</th>
+            <th>字段名称</th>
+            <th>子字段名称</th>
+            <th>输入值</th>
+        </tr>
+        <tbody id="inter_content">
+        {% for i in temp_conten %}
+        <tr>
+            <td>
+                <input type="text" name="content_objName" id="content_objName" value="{{ i.objName }}" readonly="readonly">
+            </td>
+
+            <td>
+                <input type="text"  value="{{ i.part }}" readonly="readonly">
+            </td>
+
+            <td>
+                <input type="text"  value="{{ i.list }}" readonly="readonly">
+            </td>
+
+            <td>
+                <input type="text" value="{{ i.key }}" readonly="readonly">
+            </td>
+
+            <td>
+                <input type="text" name="val" value="" >
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<hr style="margin-top: 10px">
+</div>
+<div style="margin-top: 20px">
+    <table class="list01 list02 tempTable" style="margin-top: 10px">
+        <tr class="thead">
+            <th>参数名称</th>
+            <th>字段名称</th>
+            <th>比对方式</th>
+            <th>期望值</th>
+            <th>SQL语句</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="inter_assert">
+        {% for i in temp_assert %}
+      <tr>
+            <td>
+                <input type="text" name="assert_objName" id="assert_objName" value="{{ i.objName }}" readonly="readonly">
+            </td>
+
+            <td>
+                <input type="text" value="{{ i.list }}"  name="field_name" readonly="readonly">
+            </td>
+
+            <td>
+                <select class="assert_method" name="assert_method">
+                    <option></option>
+                    <option value="返回值与数据库对比">返回值与数据库对比</option>
+                    <option value="期望值与返回值对比">期望值与返回值对比</option>
+                    <option value="期望值与数据库对比">期望值与数据库对比</option>
+                    <option value="脚本高级断言对比">脚本高级断言对比</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" name="expected_val">
+            </td>
+            <td>
+                <input type="text" name="sql_str">
+            </td>
+            <td id="operation">
+                <input type="button" class="add_diff" name="{{ i.id }}" title="增加断言">
+                <input type="button" class="add_timeout" name="{{ i.id }}" title="增加延时">
+                <input type="button" class="delete_diff" name="{{ i.id }}" title="删除断言">
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>

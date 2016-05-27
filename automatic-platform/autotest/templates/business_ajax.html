@@ -1,0 +1,47 @@
+
+{% for i in case_list %}
+<tr>
+    <td>
+        {{ forloop.counter }}
+    </td>
+    <td><input type="text" name="category" value='{{ i.category }}' readonly="readonly"></td>
+    <td>
+        <input type="text" name="case_name" value='{{ i.name }}' readonly="readonly">
+    </td>
+    <td>
+        <input type="text" name="case_date" value='{{ i.date }}' readonly="readonly" >
+    </td>
+    <td>
+        <input type="text" name="case_nature" value='{{ i.case_nature }}' readonly="readonly" >
+    </td>
+    <input type="hidden" name="case_id" value="{{ i.id }}">
+    <td>
+        <input class="dgb_all" type="button" name="{{ i.id }}" nature="{{ i.category }}" title="维护">
+        <input id="bus_del_case" type="button" title="删除">
+    </td>
+</tr>
+{% endfor %}
+
+{% for i in incase_list %}
+<tr>
+    <td>
+        {{ forloop.counter }}
+    </td>
+    <td><input type="text" name="category" value='{{ i.category }}' readonly="readonly"></td>
+    <td>
+        <input type="text" name="case_name" value='{{ i.caseName }}' readonly="readonly">
+    </td>
+    <td>
+        <input type="text" name="case_date" value='{{ i.date }}' readonly="readonly">
+    </td>
+    <td>
+        <input type="text" name="case_nature" value='{{ i.nature }}' readonly="readonly">
+    </td>
+    <input type="hidden" name="case_id" value="{{ i.id }}">
+    <td>
+        <input class="dgb_all" type="button" name="{{ i.id }}" nature="{{ i.category }}" title="维护">
+        <input id="bus_del_case" type="button" title="删除">
+    </td>
+</tr>
+{% endfor %}
+

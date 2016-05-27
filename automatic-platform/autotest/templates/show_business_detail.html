@@ -1,0 +1,62 @@
+
+<div class="rightbar">
+    <div class="top">
+        管理平台 &gt;
+        <span>{{ current_pro_name }}&gt;查看业务流详细信息</span><br>
+        <span>业务流ID：{{ bus_obj.id }}</span><br>
+        <span>业务流名称：{{ bus_obj.name }}</span>
+    </div>
+    <br><br><br>
+    <div class="tablelist">
+        <table class="list01 list02 tb" id="aabb">
+            <tr class="thead">
+                <th width="50">步骤</th>
+                <th>用例标题</th>
+                <th width="150">时间</th>
+                <th width="100">性质</th>
+            </tr>
+            <tbody id="sortable">
+                {% for i in bus_detail %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.date }}</td>
+                        <td>{{ i.case_nature }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <span id="add_people">历史操作:&nbsp; &nbsp;&nbsp;</span>
+    <div>
+        <span>
+             {% for action in history_list %}
+                 {% if action.action == "create" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , 由 <span class="his">{{ action.actor }}</span> 创建。<br/>
+                 {% elif action.action == "debug" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , 由 <span class="his">{{ action.actor }}</span> 调试 。<br/>
+                 {% elif action.action == "addcase" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , 由 <span class="his">{{ action.actor }}</span> 新增用例 "<span class="his">{{ action.case_name }}</span>" 。<br/>
+                 {% elif action.action == "delcase" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , <span class="his">{{ action.actor }}</span> 删除用例 "<span class="his">{{ action.case_name }}</span>" 。<br/>
+                 {% elif action.action == "edit" %}
+                    {{ forloop.counter }}、{{ action.actiondate }} , <span class="his">{{ action.actor }}</span> 修改字段 "<span class="his">{{ action.edit_field }}</span>" 。将字段 "<span class="his">{{ action.edit_field}}</span>" 的值由 "<span class="his">{{ action.old_field_value }}</span>" 修改为 "<span class="his">{{ action.new_field_value }}</span>" 。<br/>
+                 {% endif %}
+             {% endfor %}
+        </span>
+    </div>
+
+</div>
+
+
+
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+<script>
+    $(function () {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+    });
+</script>

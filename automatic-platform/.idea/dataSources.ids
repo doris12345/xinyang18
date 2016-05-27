@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="Django default" uuid="05382d2d-36c3-4323-8401-dafc81d25218">
+    <database-info product="MySQL" version="5.6.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="platform_test"/>
+    <table name="auth_group" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="auth_group_permissions_ibfk_2" table="auth_group_permissions" schema="" catalog="platform_test" columns="group_id"/>
+      <exported-key name="auth_user_groups_ibfk_1" table="auth_user_groups" schema="" catalog="platform_test" columns="group_id"/>
+      <index name="name" unique="true" columns="name"/>
+    </table>
+    <table name="auth_group_permissions" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_group_permissions_ibfk_1" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="auth_group_permissions_ibfk_2" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="group_id" unique="true" columns="permission_id"/>
+      <index name="auth_group_permissions_0e939a4f" unique="false" columns="group_id"/>
+      <index name="auth_group_permissions_8373b171" unique="false" columns="permission_id"/>
+    </table>
+    <table name="auth_permission" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="codename" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_permission_ibfk_1" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="auth_group_permissions_ibfk_1" table="auth_group_permissions" schema="" catalog="platform_test" columns="permission_id"/>
+      <exported-key name="auth_user_user_permissions_ibfk_1" table="auth_user_user_permissions" schema="" catalog="platform_test" columns="permission_id"/>
+      <index name="content_type_id" unique="true" columns="codename"/>
+      <index name="auth_permission_417f1b1c" unique="false" columns="content_type_id"/>
+    </table>
+    <table name="auth_user" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="password" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_login" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="is_superuser" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="username" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="first_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="75" scale="0" nullable="false" jdbcType="12"/>
+      <column name="is_staff" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="date_joined" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="auth_user_groups_ibfk_2" table="auth_user_groups" schema="" catalog="platform_test" columns="user_id"/>
+      <exported-key name="auth_user_user_permissions_ibfk_2" table="auth_user_user_permissions" schema="" catalog="platform_test" columns="user_id"/>
+      <exported-key name="django_admin_log_ibfk_2" table="django_admin_log" schema="" catalog="platform_test" columns="user_id"/>
+      <exported-key name="webapp_ap_ibfk_1" table="webapp_ap" schema="" catalog="platform_test" columns="user_id"/>
+      <exported-key name="webapp_test_execution_ibfk_1" table="webapp_test_execution" schema="" catalog="platform_test" columns="user_id"/>
+      <index name="username" unique="true" columns="username"/>
+    </table>
+    <table name="auth_user_groups" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_user_groups_ibfk_1" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="auth_user_groups_ibfk_2" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_id" unique="true" columns="group_id"/>
+      <index name="auth_user_groups_0e939a4f" unique="false" columns="group_id"/>
+      <index name="auth_user_groups_e8701ad4" unique="false" columns="user_id"/>
+    </table>
+    <table name="auth_user_user_permissions" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="auth_user_user_permissions_ibfk_1" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="auth_user_user_permissions_ibfk_2" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_id" unique="true" columns="permission_id"/>
+      <index name="auth_user_user_permissions_8373b171" unique="false" columns="permission_id"/>
+      <index name="auth_user_user_permissions_e8701ad4" unique="false" columns="user_id"/>
+    </table>
+    <table name="django_admin_log" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="action_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="object_id" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="object_repr" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action_flag" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="change_message" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="django_admin_log_ibfk_1" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="django_admin_log_ibfk_2" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="django_admin_log_417f1b1c" unique="false" columns="content_type_id"/>
+      <index name="django_admin_log_e8701ad4" unique="false" columns="user_id"/>
+    </table>
+    <table name="django_content_type" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="app_label" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="model" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="auth_permission_ibfk_1" table="auth_permission" schema="" catalog="platform_test" columns="content_type_id"/>
+      <exported-key name="django_admin_log_ibfk_1" table="django_admin_log" schema="" catalog="platform_test" columns="content_type_id"/>
+      <index name="django_content_type_app_label_3ec8c61c_uniq" unique="true" columns="app_label,model"/>
+    </table>
+    <table name="django_migrations" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="app" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="applied" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="django_session" schema="" catalog="platform_test" type="TABLE">
+      <column name="session_key" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="session_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="session_key"/>
+      <index name="django_session_de54fa62" unique="false" columns="expire_date"/>
+    </table>
+    <table name="webapp_action" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="desc" sqlType="VARCHAR" precision="1000" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="webapp_ap" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="edit_date" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_ap_ibfk_1" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_ap_detail_ibfk_1" table="webapp_ap_detail" schema="" catalog="platform_test" columns="ap_id"/>
+      <index name="name" unique="true" columns="name"/>
+      <index name="webapp_ap_e8701ad4" unique="false" columns="user_id"/>
+    </table>
+    <table name="webapp_ap_detail" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="case_nature" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="case_type" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="edit_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="api_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="case_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="ap_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_ap_detail_ibfk_1" columns="ap_id" ref-table="webapp_ap" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="webapp_ap_detail_ibfk_2" columns="api_id" ref-table="webapp_api_business" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="webapp_ap_detail_ibfk_3" columns="case_id" ref-table="webapp_incaselist" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_ap_detail_21f4c7b0" unique="false" columns="ap_id"/>
+      <index name="webapp_ap_detail_7f12ca67" unique="false" columns="case_id"/>
+      <index name="webapp_ap_detail_d33aff5d" unique="false" columns="api_id"/>
+    </table>
+    <table name="webapp_api_business" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="create_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="edit_date" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="pro_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_api_business_ibfk_1" columns="pro_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_ap_detail_ibfk_2" table="webapp_ap_detail" schema="" catalog="platform_test" columns="api_id"/>
+      <exported-key name="webapp_api_detail_ibfk_1" table="webapp_api_detail" schema="" catalog="platform_test" columns="api_id"/>
+      <index name="webapp_api_business_name_6422b824_uniq" unique="true" columns="name"/>
+      <index name="webapp_api_business_87d6f5a9" unique="false" columns="pro_id"/>
+    </table>
+    <table name="webapp_api_detail" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="create_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="api_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="case_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_api_detail_ibfk_1" columns="api_id" ref-table="webapp_api_business" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="webapp_api_detail_ibfk_2" columns="case_id" ref-table="webapp_incaselist" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_api_detail_7f12ca67" unique="false" columns="case_id"/>
+      <index name="webapp_api_detail_d33aff5d" unique="false" columns="api_id"/>
+    </table>
+    <table name="webapp_appaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="desc" sqlType="VARCHAR" precision="1000" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="webapp_appmethod" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="webapp_business" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="category" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="creator" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="Project_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_business_ibfk_1" columns="Project_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_business_stp_ibfk_1" table="webapp_business_stp" schema="" catalog="platform_test" columns="business_id"/>
+      <exported-key name="webapp_businessaction_ibfk_1" table="webapp_businessaction" schema="" catalog="platform_test" columns="business_id"/>
+      <index name="name" unique="true" columns="name"/>
+      <index name="webapp_business_c6ca4204" unique="false" columns="Project_id"/>
+    </table>
+    <table name="webapp_business_stp" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="case_id" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="case_nature" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="category" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="business_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_business_stp_ibfk_1" columns="business_id" ref-table="webapp_business" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_business_stp_2f4e4ac4" unique="false" columns="business_id"/>
+    </table>
+    <table name="webapp_businessaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="actor" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="actiondate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="edit_field" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="old_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="new_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="case_name" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="business_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_businessaction_ibfk_1" columns="business_id" ref-table="webapp_business" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="webapp_case" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="browser" sqlType="VARCHAR" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="os" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="case_nature" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="category" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="status" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="features" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="project_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_case_ibfk_1" columns="project_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_case_process_ibfk_1" table="webapp_case_process" schema="" catalog="platform_test" columns="case_id"/>
+      <exported-key name="webapp_caseaction_ibfk_1" table="webapp_caseaction" schema="" catalog="platform_test" columns="case_id"/>
+      <index name="name" unique="true" columns="name"/>
+      <index name="webapp_case_b098ad43" unique="false" columns="project_id"/>
+    </table>
+    <table name="webapp_case_process" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="desc" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="value" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ele_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ele_name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="case_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_case_process_ibfk_1" columns="case_id" ref-table="webapp_case" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_case_process_7f12ca67" unique="false" columns="case_id"/>
+    </table>
+    <table name="webapp_caseaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="actor" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="actiondate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="edit_field" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12"/>
+      <column name="old_field_value" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12"/>
+      <column name="new_field_value" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12"/>
+      <column name="step_desc" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="step_action" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="step_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="step_e_name" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="case_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_caseaction_ibfk_1" columns="case_id" ref-table="webapp_case" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="webapp_diff" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="objId" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="diffType" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="value" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ex" sqlType="VARCHAR" precision="5000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="case_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="field_name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_diff_ibfk_1" columns="case_id" ref-table="webapp_incaselist" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_diff_7f12ca67" unique="false" columns="case_id"/>
+    </table>
+    <table name="webapp_element" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="fun" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="values" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="desc" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="page_url" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="creator" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="project_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_element_ibfk_1" columns="project_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_elementaction_ibfk_1" table="webapp_elementaction" schema="" catalog="platform_test" columns="element_id"/>
+      <index name="webapp_element_b098ad43" unique="false" columns="project_id"/>
+    </table>
+    <table name="webapp_elementaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="actor" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="actiondate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="action" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="edit_field" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="old_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="new_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="element_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_elementaction_ibfk_1" columns="element_id" ref-table="webapp_element" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="webapp_execution_detail" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="case_nature" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="category" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="api_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="case_id" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="perform_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_execution_detail_ibfk_1" columns="perform_id" ref-table="webapp_test_execution" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_execution_detail_cf3685a2" unique="false" columns="perform_id"/>
+    </table>
+    <table name="webapp_executionaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="actor" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="actiondate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="edit_field" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="old_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="new_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="case_name" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="Execution_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_executionaction_ibfk_1" columns="Execution_id" ref-table="webapp_test_execution" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="webapp_incaseaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="actor" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="actiondate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="action" sqlType="VARCHAR" precision="300" scale="0" nullable="false" jdbcType="12"/>
+      <column name="edit_field" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="old_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="new_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="add_objId" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="add_diffType" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="add_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="add_fieldname" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="add_ex" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="inCaseList_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_incaseaction_ibfk_1" columns="inCaseList_id" ref-table="webapp_incaselist" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="incase_id" unique="false" columns="inCaseList_id"/>
+    </table>
+    <table name="webapp_incasedetail" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="objId" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="value" sqlType="VARCHAR" precision="1000" scale="0" nullable="false" jdbcType="12"/>
+      <column name="case_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_incasedetail_ibfk_1" columns="case_id" ref-table="webapp_incaselist" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_incasedetail_7f12ca67" unique="false" columns="case_id"/>
+    </table>
+    <table name="webapp_incaselist" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="tempId" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="caseName" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="createDate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="modifyDate" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="category" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="nature" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="creator" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="project_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_incaselist_ibfk_1" columns="project_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_ap_detail_ibfk_3" table="webapp_ap_detail" schema="" catalog="platform_test" columns="case_id"/>
+      <exported-key name="webapp_api_detail_ibfk_2" table="webapp_api_detail" schema="" catalog="platform_test" columns="case_id"/>
+      <exported-key name="webapp_diff_ibfk_1" table="webapp_diff" schema="" catalog="platform_test" columns="case_id"/>
+      <exported-key name="webapp_incaseaction_ibfk_1" table="webapp_incaseaction" schema="" catalog="platform_test" columns="inCaseList_id"/>
+      <exported-key name="webapp_incasedetail_ibfk_1" table="webapp_incasedetail" schema="" catalog="platform_test" columns="case_id"/>
+      <index name="caseName" unique="true" columns="caseName"/>
+      <index name="webapp_incaselist_b098ad43" unique="false" columns="project_id"/>
+    </table>
+    <table name="webapp_method" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="webapp_project" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="pro_user" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="pro_status" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12"/>
+      <column name="appActivity" sqlType="VARCHAR" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="test_type" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="project_type" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="webapp_api_business_ibfk_1" table="webapp_api_business" schema="" catalog="platform_test" columns="pro_id"/>
+      <exported-key name="webapp_business_ibfk_1" table="webapp_business" schema="" catalog="platform_test" columns="Project_id"/>
+      <exported-key name="webapp_case_ibfk_1" table="webapp_case" schema="" catalog="platform_test" columns="project_id"/>
+      <exported-key name="webapp_element_ibfk_1" table="webapp_element" schema="" catalog="platform_test" columns="project_id"/>
+      <exported-key name="webapp_incaselist_ibfk_1" table="webapp_incaselist" schema="" catalog="platform_test" columns="project_id"/>
+      <exported-key name="webapp_projectaction_ibfk_1" table="webapp_projectaction" schema="" catalog="platform_test" columns="Project_id"/>
+      <exported-key name="webapp_prosetting_ibfk_1" table="webapp_prosetting" schema="" catalog="platform_test" columns="proName_id"/>
+      <exported-key name="webapp_protemp_ibfk_1" table="webapp_protemp" schema="" catalog="platform_test" columns="proName_id"/>
+      <index name="webapp_project_name_4d95614f_uniq" unique="true" columns="name"/>
+    </table>
+    <table name="webapp_projectaction" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="actor" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="actiondate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="action" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="edit_field" sqlType="VARCHAR" precision="30" scale="0" nullable="true" jdbcType="12"/>
+      <column name="old_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="new_field_value" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="envName" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="Project_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_projectaction_ibfk_1" columns="Project_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="webapp_prosetting" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="envName" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="address" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="port" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="connectType" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="connectData" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="userName" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="passWord" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="interfaceType" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="is_used" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="proName_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_prosetting_ibfk_1" columns="proName_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_prosetting_5405fe73" unique="false" columns="proName_id"/>
+    </table>
+    <table name="webapp_protemp" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="tempName" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="createTime" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="createUser" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="template_type" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="proName_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="last_time" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_protemp_ibfk_1" columns="proName_id" ref-table="webapp_project" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_tempdetail_ibfk_1" table="webapp_tempdetail" schema="" catalog="platform_test" columns="temp_id"/>
+      <exported-key name="webapp_tempdetailfornewjso_temp_id_558f7311_fk_webapp_protemp_id" table="webapp_tempdetailfornewjson" schema="" catalog="platform_test" columns="temp_id"/>
+      <index name="tempName" unique="true" columns="tempName"/>
+      <index name="webapp_protemp_5405fe73" unique="false" columns="proName_id"/>
+    </table>
+    <table name="webapp_tempdetail" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="objName" sqlType="VARCHAR" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="part" sqlType="VARCHAR" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="list" sqlType="VARCHAR" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="key" sqlType="VARCHAR" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="key2" sqlType="VARCHAR" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="type" sqlType="VARCHAR" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="temp_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_tempdetail_ibfk_1" columns="temp_id" ref-table="webapp_protemp" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_tempdetail_b6b6e66c" unique="false" columns="temp_id"/>
+    </table>
+    <table name="webapp_tempdetailfornewjson" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="appId" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="appName" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
+      <column name="parentID" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="isLeaf" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="temp_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_tempdetailfornewjso_temp_id_558f7311_fk_webapp_protemp_id" columns="temp_id" ref-table="webapp_protemp" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="webapp_tempdetailfornewjson_b6b6e66c" unique="false" columns="temp_id"/>
+    </table>
+    <table name="webapp_test_execution" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="creator" sqlType="VARCHAR" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="webapp_test_execution_ibfk_1" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="platform_test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="webapp_execution_detail_ibfk_1" table="webapp_execution_detail" schema="" catalog="platform_test" columns="perform_id"/>
+      <exported-key name="webapp_executionaction_ibfk_1" table="webapp_executionaction" schema="" catalog="platform_test" columns="Execution_id"/>
+      <index name="name" unique="true" columns="name"/>
+      <index name="webapp_test_execution_e8701ad4" unique="false" columns="user_id"/>
+    </table>
+    <table name="webapp_test_report" schema="" catalog="platform_test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="Execution_id" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="path" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+  </data-source>
+</component>

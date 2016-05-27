@@ -1,0 +1,213 @@
+{% load staticfiles %}
+<form id="form_project" name="add_project" method="post" action="/add_project/">
+<div class="rightbar">
+        <div class="top">管理平台 &gt;
+            {% if pro_obj %}
+                <span>编辑</span>
+            {% else %}
+                <span>新增</span>
+            {% endif %}
+        </div>
+
+        {% if pro_obj %}
+        <div>
+            <span>项目ID:</span>{{ pro_obj.id }}
+            <input type="hidden" name="pro_id" value="{{ pro_obj.id }}">
+            <br>
+        </div>
+        {% endif %}
+
+        <span>基本信息:</span>
+        <div class="add_pro">
+            <table class="list01 list02 list05">
+            <tr class="thead">
+                <td>项目名称</td>
+                <td>项目地址</td>
+                <td>项目状态</td>
+                <td>测试类型</td>
+            </tr>
+            {% if pro_obj %}
+            <tr>
+                <td><input style="width:80%" id="add_pro" name="pro_name" type="text" value="{{ pro_obj.name }}" required autofocus></td>
+                <td><input style="width:80%" id="add_url" name="pro_url" type="text" value="{{ pro_obj.url }}" required autofocus></td>
+                <td>
+                    <select name="pro_status" id="status">
+                        {% if pro_obj.pro_status == "进行中" %}
+                            <option value="进行中">进行中</option>
+                            <option value="已关闭">已关闭</option>
+                        {% else %}
+                            <option value="已关闭">已关闭</option>
+                            <option value="进行中">进行中</option>
+                        {% endif %}
+                    </select>
+                </td>
+                 <td>
+                    <select name="test_type" id="test_type"  >
+                        {% if pro_obj.test_type == "Web测试" %}
+                            <option value="Web测试">Web测试</option>
+                            <option value="JSON接口测试">JSON接口测试</option>
+                            <option value="JMS接口测试">JMS接口测试</option>
+                            <option value="Web&JMS接口测试">Web&JMS接口测试</option>
+                            <option value="Web&JSON接口测试">Web&JSON接口测试</option>
+                        {% elif pro_obj.test_type == "JMS接口测试" %}
+                            <option value="JMS接口测试">JMS接口测试</option>
+                            <option value="Web测试">Web测试</option>
+                            <option value="JSON接口测试">JSON接口测试</option>
+                            <option value="Web&JMS接口测试">Web&JMS接口测试</option>
+                            <option value="Web&JSON接口测试">Web&JSON接口测试</option>
+                        {% elif pro_obj.test_type == "JSON接口测试" %}
+                            <option value="JSON接口测试">JSON接口测试</option>
+                            <option value="Web测试">Web测试</option>
+                            <option value="JMS接口测试">JMS接口测试</option>
+                            <option value="Web&JMS接口测试">Web&JMS接口测试</option>
+                            <option value="Web&JSON接口测试">Web&JSON接口测试</option>
+                        {% elif pro_obj.test_type == "Web&JSON接口测试" %}
+                            <option value="Web&JSON接口测试">Web&JSON接口测试</option>
+                            <option value="Web测试">Web测试</option>
+                            <option value="JSON接口测试">JSON接口测试</option>
+                            <option value="JMS接口测试">JMS接口测试</option>
+                            <option value="Web&JMS接口测试">Web&JMS接口测试</option>
+                        {% else %}
+                            <option value="Web&JMS接口测试">Web&JMS接口测试</option>
+                            <option value="Web测试">Web测试</option>
+                            <option value="JSON接口测试">JSON接口测试</option>
+                            <option value="JMS接口测试">JMS接口测试</option>
+                            <option value="Web&JSON接口测试">Web&JSON接口测试</option>
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+
+            {% else %}
+            <tr>
+                <td><input id="add_pro" name="pro_name" type="text" required autofocus></td>
+                <td><input id="add_url" name="pro_url" type="text" required autofocus></td>
+                <td>
+                    <select name="pro_status" id="status">
+                        <option value="进行中">进行中</option>
+                        <option value="已关闭">已关闭</option>
+                    </select>
+                </td>
+                 <td>
+                    <select name="test_type" id="test_type">
+                        <option value="Web测试">Web测试</option>
+                        <option value="JSON接口测试">JSON接口测试</option>
+                        <option value="JMS接口测试">JMS接口测试</option>
+                        <option value="Web&JMS接口测试">Web&JMS接口测试</option>
+                        <option value="Web&JSON接口测试">Web&JSON接口测试</option>
+                    </select>
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+        </div>
+        <br/>
+
+        <span>数据库信息:</span><input id="add_database" class="add_database" type="button">
+        <div class="add_DB">
+             <table class="list01 list02 list05" id="add_DB">
+                <tr class="thead">
+                    <td>数据库名称</td>
+                    <td>数据库地址</td>
+                    <td>端口号</td>
+                    <td>连接方式</td>
+                    <td>SID/ServerName</td>
+                    <td>用户名</td>
+                    <td>密码</td>
+                    <td>是否启用</td>
+                    <td>操作</td>
+                </tr>
+
+                {% for i in  db_obj %}
+                    <tr>
+                        <td><input  name="db_name" type="text" value="{{ i.envName }}" required autofocus></td>
+                        <td><input  name="db_address" type="text" value="{{ i.address }}" required autofocus></td>
+                        <td><input  name="db_port" type="text" value="{{ i.port }}" required autofocus></td>
+                        <td><input  name="db_connecttype" type="text" value="{{ i.connectType }}" required autofocus></td>
+                        <td><input  name="db_connectdata" type="text" value="{{ i.connectData }}" required autofocus></td>
+                        <td><input  name="db_username" type="text" value="{{ i.userName }}" required autofocus></td>
+                        <td><input  name="db_password" type="text" value="{{ i.passWord }}" required autofocus></td>
+                        {% if i.is_used == "True" %}
+                        <td>
+                            <select name="db_status" id="db_status">
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </td>
+                        {% else %}
+                        <td>
+                        <select name="db_status" id="db_status">
+                            <option value="False">False</option>
+                            <option value="True">True</option>
+                        </select>
+                        </td>
+                        {% endif %}
+                         <td><input class="sc_db" type="button" name="{{ i.id }}" title="删除"></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br/>
+
+        {% if pro_obj %}
+        <span id="add_people">项目人员:&nbsp; &nbsp;&nbsp;</span><input id="addmember" class="addmember" type="button">
+        <div class="peoples"><textarea id='add_cy' name='memberlist' class="memberlist">{{ pro_obj.pro_user }}</textarea><div>
+        <input type="hidden" name="project_id" value="{{ pro_obj.id }}">
+        <input type="hidden" name="action" value="保存修改">
+        {% else %}
+        <span id="add_people">项目人员:&nbsp; &nbsp;&nbsp;</span><input id="addmember" class="addmember" type="button">
+        <div class="peoples"><textarea id='add_cy' name='memberlist' class="memberlist"></textarea></div>
+        <input type="hidden" name="action" value="保存新增">
+        {% endif %}
+        <div><a id="save_pro"  class="a_btn">保存</a></div>
+  </div>
+</form>
+
+<div class="mask"></div>
+<div class="dialog moremember_dialog">
+    <div class="clearfix">
+        <img src="{% static "img/close.png" %}" alt=""
+             style="width:18px; height:18px; margin: -9px 7px 10px 0px; cursor:pointer;" class="fr member_cancel"/>
+    </div>
+    <div style="height: 280px; overflow-y: auto; margin-bottom: 15px;">
+        <table class="list01 list02 list04">
+            <tr>
+                <th width="100"></th>
+                <td>人员名称</td>
+            </tr>
+            {% for i in userlist %}
+                <tr>
+                    <td><input type="checkbox" class="checkbox2" id="" name="" value="{{ i.username }}"></td>
+                    <td class="user">{{ i.username }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+    <div class="textcenter"><input type="submit" class="a_btn member_save" value="保存"/></div>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('#test_type').change(function(){
+            var tr = $("#add_DB tr").length;
+            val=$(this).children('option:selected').val();
+            //项目测试类型由Web测试变成了包含接口的测试类型并且该项目没有数据库信息，则在数据库信息中自动增加一条空记录；
+            if(val != "Web测试" && tr == 1){
+                $("#add_DB").append(
+                "<tr>"+
+                "<td><input  name='db_name' type='text' value='' required autofocus></td>"+
+                "<td><input  name='db_address' type='text' value='' required autofocus></td>"+
+                "<td><input  name='db_port' type='text' value='' required autofocus></td>"+
+                "<td><input  name='db_connecttype' type='text' value='' required autofocus></td>"+
+                "<td><input  name='db_connectdata' type='text' value='' required autofocus></td>"+
+                "<td><input  name='db_username' type='text' value='' required autofocus></td>"+
+                "<td><input  name='db_password' type='text' value='' required autofocus></td>"+
+                "<td> <select name='db_status' ><option value='True'>True</option><option value='False'>False</option></select> </td>"+
+                "<td><input class='sc_db' type='button'  title='删除'></td>"+
+                "</tr>");
+            }
+        })
+    })
+</script>

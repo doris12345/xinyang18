@@ -1,0 +1,43 @@
+{% for i in tr_list %}
+    {% if i.category == "测试用例" %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><input type="text" name="category" value='{{ i.category }}' readonly="readonly"></td>
+        <td><input type="text" name="name" style="width:80%"  value='{{ i.name }}' readonly="readonly"></td>
+        <td><input type="text" name="case_nature" value='{{ i.case_nature }}' readonly="readonly"></td>
+        <td><input type="text" name="date" value='{{ i.date }}' readonly="readonly"></td>
+        <td>
+{#            <input class="dgb_all" type="button" name="{{ i.id }}" nature="{{ i.category }}" title="维护">#}
+            <input class="per_del_case" type="button" name="{{ i.id }}" title="删除">
+            <input type="hidden" name="case_id" value="{{ i.id }}">
+        </td>
+    </tr>
+    {% elif i.category == "业务流用例"%}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><input type="text" name="category" value='{{ i.category }}' readonly="readonly"></td>
+            <td><input type="text" name="name" style="width:80%" value='{{ i.name }}' readonly="readonly"></td>
+            <td><input type="text" name="case_nature" value='--' readonly="readonly"></td>
+            <td><input type="text" name="date" value='{{ i.date }}' readonly="readonly"></td>
+            <td>
+{#                <input class="dgb_all" type="button" name="{{ i.id }}" nature="{{ i.category }}" title="维护">#}
+                <input class="per_del_case" type="button" name="{{ i.id }}" title="删除">
+                <input type="hidden" name="case_id" value="{{ i.id }}">
+            </td>
+        </tr>
+    {% else %}
+     <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><input type="text" name="category" value='{{ i.category }}' readonly="readonly"></td>
+        <td><input type="text" name="name" style="width:80%" value='{{ i.caseName }}' readonly="readonly"></td>
+        <td><input type="text" name="case_nature" value='{{ i.nature }}' readonly="readonly"></td>
+        <td><input type="text" name="date" value='{{ i.createDate }}' readonly="readonly"></td>
+        <td>
+{#            <input class="dgb_all" type="button" name="{{ i.id }}" nature="{{ i.category }}" title="维护">#}
+            <input class="per_del_case" type="button" name="{{ i.id }}" title="删除">
+            <input type="hidden" name="case_id" value="{{ i.id }}">
+        </td>
+    </tr>
+
+    {% endif %}
+{% endfor %}

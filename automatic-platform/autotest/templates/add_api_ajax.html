@@ -1,0 +1,27 @@
+{% for i in case_list %}
+<tr>
+    <td>
+        <input type="checkbox" class="checkbox" name="{{ i.id }}">
+    </td>
+    <td>
+        <a>{{ forloop.counter }}</a>
+    </td>
+    <td>
+        <a>{{ i.tempId }}</a>
+    </td>
+    <td>
+        <input type="text" name="name" value="{{ i.caseName }}" readonly="readonly">
+
+    </td>
+    <td>
+        <a>{{ i.createDate }}</a>
+    </td>
+    <td>
+        <a>{{ i.modifyDate }}</a>
+    </td>
+    <td>
+        <input type="button" class="a_btn edit_bus_case" value="维护用例" name="{{ i.id }}">
+    </td>
+    <input type="hidden" name="case_id" value="{{ i.id }}">
+</tr>
+{% endfor %}
